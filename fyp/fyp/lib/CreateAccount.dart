@@ -263,8 +263,7 @@ class _CreateAccountState extends State<CreateAccount> {
             setState(() {
               if (_formKey.currentState!.validate()) {
                 userRegistration();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const HomePage()));
+                
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Processing Data')),

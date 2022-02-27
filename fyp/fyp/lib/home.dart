@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/AddIncome.dart';
+import 'package:fyp/AllTransactions.dart';
 import 'package:fyp/addExpense.dart';
+import 'package:fyp/chart.dart';
+
+import 'package:intl/intl.dart';
+import 'package:fl_chart/fl_chart.dart';
+
+
+
 
 
 void main() {
@@ -15,23 +23,52 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> {
+  TextEditingController dateinput = TextEditingController();
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        toolbarHeight: 65,
+        //toolbarHeight: 65,
         elevation: 5,
         actions: [
           IconButton(
-            onPressed: () {},
+           // onPressed: () {
+              onPressed: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(
+                                  2000), //DateTime.now() - not to allow to choose before today.
+                              lastDate: DateTime(2101));
+
+                          if (pickedDate != null) {
+                            print(
+                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                            String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(pickedDate);
+                            print(
+                                formattedDate); //formatted date output using intl package =>  2021-03-16
+                            //you can implement different kind of Date Format here according to your requirement
+
+                            setState(() {
+                              dateinput.text =
+                                  formattedDate; //set output date to TextField value.
+                            });
+                          } else {
+                            print("Date is not selected");
+                          }
+                        },
+            
             iconSize: 20,
             icon: Icon(Icons.calendar_today),
             color: Colors.white,
           ),
         ],
       
-        title: Text('Add Income',
+        title: Text('Expense Organizer',
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'Roboto Condensed',
@@ -65,40 +102,30 @@ class _HomeState extends State<HomePage> {
                 Color(0xff5ac18e),
               ])),
               child: Stack(children: <Widget>[
+                
                 Align(
-                  alignment: Alignment.centerLeft,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    backgroundImage: AssetImage("assets/profile (2).png"),
-                    radius: 60.0,
-                  ),
-                ),
-                Align(
-                    alignment: Alignment.centerRight,
+                    alignment: Alignment.center,
                     child: Text("Kranti Baral",
                         style: TextStyle(
                           color: Colors.white,
                             fontFamily: "Cookie",
                             fontWeight: FontWeight.w500,
                             fontSize: 30))),
+                            SizedBox(height:10),
+                            Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text("baralkranti4@gmail.com",
+                        style: TextStyle(
+                          color: Colors.white,
+                            fontFamily: "Cookie",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 25))),
                
               ]),
             ),
+            
             ListTile(
-              leading: Icon(Icons.account_circle),
-              onTap: (){
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
-              },
-              title: Text(
-                'Profile',
-                style: TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'Roboto Condensed',
-                    fontWeight: FontWeight.w400),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.production_quantity_limits),
+              leading: Icon(Icons.money_outlined),
               title: Text('Add Income',
                   style: TextStyle(
                       fontSize: 15,
@@ -106,13 +133,46 @@ class _HomeState extends State<HomePage> {
                       fontWeight: FontWeight.w400)),
             ),
             ListTile(
-              leading: Icon(Icons.history),
+              leading: Icon(Icons.money_off),
               title: Text('Add Expense',
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: "'Roboto Condensed'",
                       fontWeight: FontWeight.w400)),
             ),
+            ListTile(
+              leading: Icon(Icons.swap_horiz),
+              title: Text('View Transactions',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: "'Roboto Condensed'",
+                      fontWeight: FontWeight.w400)),
+            ),
+            ListTile(
+              leading: Icon(Icons.auto_graph),
+              title: Text('View Reports',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: "'Roboto Condensed'",
+                      fontWeight: FontWeight.w400)),
+            ),
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: Text('Edit Expense',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: "'Roboto Condensed'",
+                      fontWeight: FontWeight.w400)),
+            ),
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: Text('Edit Income',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: "'Roboto Condensed'",
+                      fontWeight: FontWeight.w400)),
+            ),
+
            
           
             ListTile(
@@ -135,13 +195,20 @@ class _HomeState extends State<HomePage> {
       body: SingleChildScrollView(
           child: Column(children: [
         Container(
-          height: 400,
+          height:340,
           color: Colors.white,
+          child: PieChart(
+            PieChartData(
+            //  sections:data,
+            )
+
+          ),
         ),
         SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Container(
-            height:400,
+            height:750,
+            width: double.infinity,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -159,7 +226,7 @@ class _HomeState extends State<HomePage> {
             child: Padding(
               padding: const EdgeInsets.only(top: 25),
               child: Column(children: [
-                Row(
+                Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       GestureDetector(
@@ -170,10 +237,10 @@ class _HomeState extends State<HomePage> {
                                   builder: (context) => const AddIncome()));
                         },
                         child: Container(
-                          height: 115,
-                          width: 170,
+                          height: 70,
+                          width: 380,
                           decoration: BoxDecoration(
-                              color: Colors.purple[100],
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
@@ -183,8 +250,8 @@ class _HomeState extends State<HomePage> {
                                   offset: Offset(0, 3),
                                 ),
                               ]),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Icon(
                                   Icons.money,
@@ -199,16 +266,19 @@ class _HomeState extends State<HomePage> {
                               ]),
                         ),
                       ),
+                      SizedBox(height:10),
                       GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => addExpense()
-                          ));
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const addExpense()));
                         },
                         child: Container(
-                          height: 115,
-                          width: 170,
+                          height: 70,
+                          width: 380,
                           decoration: BoxDecoration(
-                              color: Colors.red[100],
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
@@ -218,11 +288,11 @@ class _HomeState extends State<HomePage> {
                                   offset: Offset(0, 3),
                                 ),
                               ]),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Icon(
-                                  Icons.money_off_csred,
+                                  Icons.money_off,
                                   size: 40,
                                   color: Colors.green,
                                 ),
@@ -235,44 +305,52 @@ class _HomeState extends State<HomePage> {
                         ),
                       ),
                     ]),
-                SizedBox(height: 15),
-                Row(
+                SizedBox(height: 10),
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      height: 115,
-                      width: 170,
-                      decoration: BoxDecoration(
-                          color: Colors.blue[100],
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: Offset(0, 3),
-                            ),
-                          ]),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.file_copy_sharp,
-                              size: 40,
-                              color: Colors.green,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text("All transactions",
-                                  style: TextStyle(fontSize: 18)),
-                            )
-                          ]),
+                    InkWell(
+                      splashColor: Colors.green,
+                       onTap: () {
+                         Navigator.push(context, MaterialPageRoute(builder: (context) => allTransaction()));
+                       },
+       
+                      child: Container(
+                        height: 70,
+                        width: 380,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: Offset(0, 3),
+                              ),
+                            ]),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(
+                                Icons.swap_horiz,
+                                size: 40,
+                                color: Colors.green,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("All transactions",
+                                    style: TextStyle(fontSize: 18)),
+                              )
+                            ]),
+                      ),
                     ),
+                    SizedBox(height:10),
                     Container(
-                      height: 115,
-                      width: 170,
+                      height: 70,
+                      width: 380,
                       decoration: BoxDecoration(
-                          color: Colors.orange[100],
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
                           boxShadow: [
                             BoxShadow(
@@ -282,8 +360,8 @@ class _HomeState extends State<HomePage> {
                               offset: Offset(0, 3),
                             ),
                           ]),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Icon(
                               Icons.auto_graph,
@@ -307,3 +385,4 @@ class _HomeState extends State<HomePage> {
     );
   }
 }
+
