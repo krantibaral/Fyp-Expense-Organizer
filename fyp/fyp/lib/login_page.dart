@@ -26,54 +26,55 @@ class _LoginState extends State<LoginPage> {
   final passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  bool isRememberMe = false;
-  bool _isHiddenPassword = true;
-  //bool visible = false;
+ bool isRememberMe = false;
+ bool _isHiddenPassword = true;
+bool visible = false;
 
-  //get http => null;
- //Future userLogin() async {
+//get http => null;
+ //uture userLogin() async {
+ //setState(() {
+ //  visible = true;
+ //});
+
+ //String name = nameController.text;
+
+ //String password = passwordController.text;
+ //var data = {'name': name, 'password': password};
+
+ //var response = await http.post(
+ //    Uri.parse("http://192.168.100.129/myfolder/login/login_user.php"),
+ //    body: json.encode(data));
+ //var message = jsonDecode(response.body);
+
+ //if (message == 'Login Matched') {
  //  setState(() {
- //    visible = true;
+ //    visible = false;
  //  });
 
- //  String name = nameController.text;
-
- //  String password = passwordController.text;
- //  var data = {'name': name, 'password': password};
-
- //  var response = await http.post(
- //      Uri.parse("http://192.168.100.129/myfolder/login/login_user.php"),
- //      body: json.encode(data));
- //  var message = jsonDecode(response.body);
-
- //  if (message == 'Login Matched') {
- //    setState(() {
- //      visible = false;
- //    });
-
- //    Navigator.push(
- //        context, MaterialPageRoute(builder: (context) => HomePage()));
- //  } else {
- //    setState(() {
- //      visible = false;
- //    });
- //    showDialog(
- //        context: context,
- //        builder: (BuildContext context) {
- //          return AlertDialog(
- //            title: new Text(message),
- //            actions: [
- //              ElevatedButton(
- //                child: new Text("OK"),
- //                onPressed: () {
- //                  Navigator.of(context).pop();
- //                },
- //              ),
- //            ],
- //          );
- //        });
- //  }
+ //  Navigator.push(
+ //      context, MaterialPageRoute(builder: (context) => HomePage()));
+ //} else {
+ //  setState(() {
+ //    visible = false;
+ //  });
+ //  showDialog(
+ //      context: context,
+ //      builder: (BuildContext context) {
+ //        return AlertDialog(
+ //          title: new Text(message),
+ //          actions: [
+ //            ElevatedButton(
+ //              child: new Text("OK"),
+ //              onPressed: () {
+ //                Navigator.of(context).pop();
+ //              },
+ //            ),
+ //          ],
+ //        );
+ //      });
  //}
+ //
+ 
 
   Widget buildUsername() {
     return Column(
@@ -147,7 +148,7 @@ class _LoginState extends State<LoginPage> {
             validator: Validators.compose([
               Validators.required('Password is required'),
               Validators.patternRegExp(
-                  RegExp(r'^(?=.*[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{,8}$'),
+                  RegExp(r'^(?=.*[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8}$'),
                   'Password must have 8 characters\nMinimum 1 Upper_case\nMinimum 1 Lower_case\nMinimum 1 Numeric_Number\nMinimum 1 Special Character'),
             ]),
             obscureText: _isHiddenPassword,
@@ -256,9 +257,9 @@ class _LoginState extends State<LoginPage> {
                  //await userLogin();
                 Navigator.push(context,
                    MaterialPageRoute(builder: (context) => const HomePage()));
-                //ScaffoldMessenger.of(context).showSnackBar(
-                //  const SnackBar(content: Text('Processing Data')),
-                //);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Processing Data')),
+                );
               }
             setState(() {
             });
@@ -382,4 +383,5 @@ class _LoginState extends State<LoginPage> {
       _isHiddenPassword = !_isHiddenPassword;
     });
   }
-}
+ }
+
