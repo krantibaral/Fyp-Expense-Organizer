@@ -30,50 +30,50 @@ class _LoginState extends State<LoginPage> {
  bool _isHiddenPassword = true;
 bool visible = false;
 
-//get http => null;
- //uture userLogin() async {
- //setState(() {
- //  visible = true;
- //});
+get http => null;
+ Future userLogin() async {
+ setState(() {
+   visible = true;
+ });
 
- //String name = nameController.text;
+ String name = nameController.text;
 
- //String password = passwordController.text;
- //var data = {'name': name, 'password': password};
+ String password = passwordController.text;
+ var data = {'name': name, 'password': password};
 
- //var response = await http.post(
- //    Uri.parse("http://192.168.100.129/myfolder/login/login_user.php"),
- //    body: json.encode(data));
- //var message = jsonDecode(response.body);
+ var response = await http.post(
+     Uri.parse("http://192.168.100.129/myfolder/login/login_user.php"),
+     body: json.encode(data));
+ var message = jsonDecode(response.body);
 
- //if (message == 'Login Matched') {
- //  setState(() {
- //    visible = false;
- //  });
+ if (message == 'Login Matched') {
+   setState(() {
+     visible = false;
+   });
 
- //  Navigator.push(
- //      context, MaterialPageRoute(builder: (context) => HomePage()));
- //} else {
- //  setState(() {
- //    visible = false;
- //  });
- //  showDialog(
- //      context: context,
- //      builder: (BuildContext context) {
- //        return AlertDialog(
- //          title: new Text(message),
- //          actions: [
- //            ElevatedButton(
- //              child: new Text("OK"),
- //              onPressed: () {
- //                Navigator.of(context).pop();
- //              },
- //            ),
- //          ],
- //        );
- //      });
- //}
- //
+   Navigator.push(
+       context, MaterialPageRoute(builder: (context) => HomePage()));
+ } else {
+   setState(() {
+     visible = false;
+   });
+   showDialog(
+       context: context,
+       builder: (BuildContext context) {
+         return AlertDialog(
+           title: new Text(message),
+           actions: [
+             ElevatedButton(
+               child: new Text("OK"),
+               onPressed: () {
+                 Navigator.of(context).pop();
+               },
+             ),
+           ],
+         );
+       });
+ }
+ }
  
 
   Widget buildUsername() {
@@ -255,8 +255,8 @@ bool visible = false;
           onPressed: () async {
               if (_formKey.currentState!.validate()) {
                  //await userLogin();
-                Navigator.push(context,
-                   MaterialPageRoute(builder: (context) => const HomePage()));
+               // Navigator.push(context,
+                 //  MaterialPageRoute(builder: (context) => const HomePage()));
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Processing Data')),
                 );
