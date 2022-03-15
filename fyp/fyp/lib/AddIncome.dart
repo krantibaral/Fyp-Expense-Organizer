@@ -57,7 +57,7 @@ class _AddIncomeState extends State<AddIncome> {
           icon: Icon(Icons.arrow_back),
           color: Colors.white,
         ),
-        title: Text('Add Expense',
+        title: Text('Add Income',
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'Roboto Condensed',
