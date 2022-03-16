@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyp/AddIncome.dart';
+// import 'package:fyp/AddIncome.dart';
 import 'package:fyp/AllTransactions.dart';
 import 'package:fyp/addExpense.dart';
 import 'package:fyp/allReport.dart';
@@ -221,9 +221,8 @@ class _HomeState extends State<HomePage> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left:18, right:18),
+          padding: const EdgeInsets.only(left: 18, right: 18),
           child: Container(
-           
             height: 45,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -236,28 +235,28 @@ class _HomeState extends State<HomePage> {
                   Color(0xff5ac18e),
                 ])),
             child: Center(
-                child:  RichText(
-          text: TextSpan(children: [
-            TextSpan(
-              text: 'Total Amount:  ',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontFamily: 'Roboto Condensed',
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            TextSpan(
-              text: 'Rs.1200000',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontFamily: 'Eczar',
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ]),
-        )),
+                child: RichText(
+              text: TextSpan(children: [
+                TextSpan(
+                  text: 'Total Amount:  ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontFamily: 'Roboto Condensed',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                TextSpan(
+                  text: 'Rs.1200000',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontFamily: 'Eczar',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ]),
+            )),
           ),
         ),
         SizedBox(height: 5),
@@ -288,10 +287,10 @@ class _HomeState extends State<HomePage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AddIncome()));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => const AddIncome()));
                         },
                         child: Container(
                           height: 60,
@@ -412,8 +411,11 @@ class _HomeState extends State<HomePage> {
                     ),
                     SizedBox(height: 10),
                     InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: ((context) => allReport())));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => allReport())));
                       },
                       child: Container(
                         height: 60,

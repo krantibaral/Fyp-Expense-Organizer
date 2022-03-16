@@ -40,10 +40,12 @@ class _CreateAccountState extends State<CreateAccount> {
     //  'http://192.168.0.108/myfolder/Registration/user_registration.php';
     var data = {'name': name, 'email': email, 'password': password};
 
+    print(data);
+
     var response = await http.post(
-        Uri.parse(
-            "http://192.168.100.129/myfolder/Registration/user_registration.php"),
-        body: json.encode(data));
+        Uri.parse("http://localhost:789/Registration/user_registration.php"),
+        body: json.encode(data),
+        headers: {"Content-Type": "application/json"});
     var message = jsonDecode(response.body);
     print(message);
 
@@ -263,7 +265,6 @@ class _CreateAccountState extends State<CreateAccount> {
             setState(() {
               if (_formKey.currentState!.validate()) {
                 userRegistration();
-                
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Processing Data')),
