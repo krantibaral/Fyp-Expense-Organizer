@@ -43,7 +43,7 @@ class _CreateAccountState extends State<CreateAccount> {
     print(data);
 
     var response = await http.post(
-        Uri.parse("http://localhost:789/Registration/user_registration.php"),
+        Uri.parse("http://192.168.100.129/myfolder/Registration/user_registration.php"),
         body: json.encode(data),
         headers: {"Content-Type": "application/json"});
     var message = jsonDecode(response.body);
@@ -176,7 +176,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   borderSide: BorderSide(color: Colors.white),
                 ),
                 contentPadding: EdgeInsets.only(top: 14),
-                prefixIcon: Icon(Icons.person, color: Color(0xff5ac18e)),
+                prefixIcon: Icon(Icons.email, color: Color(0xff5ac18e)),
                 hintText: "Enter your email",
                 hintStyle: TextStyle(
                     color: Colors.black38,

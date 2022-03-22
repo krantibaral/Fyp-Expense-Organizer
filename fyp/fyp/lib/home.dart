@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:fyp/AddIncome.dart';
+import 'package:fyp/AddIncome.dart';
 import 'package:fyp/AllTransactions.dart';
 import 'package:fyp/addExpense.dart';
-import 'package:fyp/allReport.dart';
+import 'package:fyp/Statistics.dart';
 import 'package:intl/intl.dart';
 //import 'package:fl_chart/fl_chart.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -53,7 +53,7 @@ class _HomeState extends State<HomePage> {
                 print(
                     pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                 String formattedDate =
-                    DateFormat('yyyy-MM-dd').format(pickedDate);
+                    DateFormat('yyyy-MM').format(pickedDate);
                 print(
                     formattedDate); //formatted date output using intl package =>  2021-03-16
                 //you can implement different kind of Date Format here according to your requirement
@@ -287,10 +287,10 @@ class _HomeState extends State<HomePage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => const AddIncome()));
+                           Navigator.push(
+                               context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AddIncome()));
                         },
                         child: Container(
                           height: 60,
@@ -401,7 +401,7 @@ class _HomeState extends State<HomePage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("All transactions",
+                                child: Text("Transactions",
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontFamily: 'Roboto Condensed')),
@@ -441,7 +441,7 @@ class _HomeState extends State<HomePage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("All report",
+                                child: Text("Statistics",
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontFamily: 'Roboto Condensed')),
