@@ -1,81 +1,32 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fyp/home.dart';
 import 'package:intl/intl.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
-import 'package:http/http.dart' as http;
+
+import 'home.dart';
 
 void main() {
-  runApp(addExpense());
+  runApp(Edit_Delete());
 }
 
-class addExpense extends StatefulWidget {
-  const addExpense({Key? key}) : super(key: key);
+class Edit_Delete extends StatefulWidget {
+  const Edit_Delete({Key? key}) : super(key: key);
 
   @override
-  _addExpenseState createState() => _addExpenseState();
+  _Edit_DeleteState createState() => _Edit_DeleteState();
 }
 
-class _addExpenseState extends State<addExpense> {
-  final _formKey = GlobalKey<FormState>();
-  bool visible = false;
-  
-  TextEditingController dateinput = TextEditingController();
-  final amountController = TextEditingController();
-  final categoryController = TextEditingController();
-  final descriptionController = TextEditingController();
+class _Edit_DeleteState extends State<Edit_Delete> {
+   TextEditingController dateinput = TextEditingController();
 
-  Future addExpense() async {
-    setState(() {
-      visible = true;
-    });
-
-    String amount = amountController.text;
-    String category = categoryController.text;
-    String description = descriptionController.text;
-
-    var data = {'amount' : amount, 'category' : category, 'description': description};
-    print(data);
-
-    var response = await http.post(
-     Uri.parse("http://192.168.100.129/myfolder/addExpense/addExpense.php"),
-     body: json.encode(data),
-     headers:{"Content-Type": "application/json"});
-    var message = jsonDecode(response.body);
-    print(message);
-
-    if (response.statusCode == 200) {
-      setState(() {
-        visible = false;
-      });
-    }
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text(message),
-          actions: <Widget>[
-            ElevatedButton(
-              child: new Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-  
-  
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+
+ Widget build(BuildContext context) {
+   return Scaffold(
+
       appBar: AppBar(
         centerTitle: true,
-       // toolbarHeight: 65,
+        //toolbarHeight: 65,
         elevation: 5,
         actions: [
           IconButton(
@@ -87,12 +38,12 @@ class _addExpenseState extends State<addExpense> {
         ],
         leading: IconButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: ((context) => HomePage())));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
           },
           icon: Icon(Icons.arrow_back),
           color: Colors.white,
         ),
-        title: Text('Add Expense',
+        title: Text('Add Income',
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'Roboto Condensed',
@@ -112,7 +63,7 @@ class _addExpenseState extends State<addExpense> {
         ),
       ),
       body: Form(
-        key: _formKey,
+        //key: _formKey,
         child: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle.light,
           child: SingleChildScrollView(
@@ -135,15 +86,12 @@ class _addExpenseState extends State<addExpense> {
                     SizedBox(height: 10),
                     Container(
                       child: TextFormField(
-                        controller: amountController,
+                        //controller: amount,
                         validator: Validators.compose([
                           Validators.required('Amount is required'),
-                          Validators.patternRegExp(
-                  RegExp(
-                      r'^[0-9]*$'),
-                  'Accept only numbers'),
-            ]),
-                        keyboardType: TextInputType.number,
+                          Validators.min(1, 'Value less than 1 not allowed'),
+                        ]),
+                        keyboardType: TextInputType.text,
                         style: TextStyle(color: Colors.black87),
                         decoration: InputDecoration(
                             border: new OutlineInputBorder(
@@ -196,7 +144,7 @@ class _addExpenseState extends State<addExpense> {
                     SizedBox(height: 10),
                     Container(
                       child: TextFormField(
-                        controller: categoryController,
+                       // controller: category,
                         validator: Validators.compose([
                           Validators.required('Category is required'),
                          Validators.minLength(1, 'Category cannot be less than 1 characters'),
@@ -336,7 +284,7 @@ class _addExpenseState extends State<addExpense> {
                             print(
                                 pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                             String formattedDate =
-                                DateFormat('yyyy-MM-dd').format(pickedDate);
+                                DateFormat('yyyy-MM-dd HH:mm:ss').format(pickedDate);
                             print(
                                 formattedDate); //formatted date output using intl package =>  2021-03-16
                             //you can implement different kind of Date Format here according to your requirement
@@ -451,7 +399,7 @@ class _addExpenseState extends State<addExpense> {
                             height: 100,
                             child: Center(
                               child: TextFormField(
-                                controller: descriptionController,
+                               // controller: description,
                                 validator: Validators.compose([
                                   Validators.required(
                                       'Description is required'),
@@ -506,16 +454,8 @@ class _addExpenseState extends State<addExpense> {
                               padding: const EdgeInsets.all(25),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  setState(() {
-                                    if (_formKey.currentState!.validate()) {
-                                      addExpense();
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                            content: Text('Processing Data')),
-                                      );
-                                    }
-                                  });
+                                  
+                                  
                                 },
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size(10, 50),
@@ -541,6 +481,12 @@ class _addExpenseState extends State<addExpense> {
                   ])),
         ),
       ),
-    );
-  }
+   
+  
+
+
+   );
+
+ }
 }
+

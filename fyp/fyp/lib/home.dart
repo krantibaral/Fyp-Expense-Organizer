@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/AddIncome.dart';
-import 'package:fyp/AllTransactions.dart';
+//import 'package:fyp/AllTransactions.dart';
 import 'package:fyp/addExpense.dart';
 import 'package:fyp/Statistics.dart';
+import 'package:fyp/transactions/trans.dart';
 import 'package:intl/intl.dart';
 //import 'package:fl_chart/fl_chart.dart';
 import 'package:pie_chart/pie_chart.dart';

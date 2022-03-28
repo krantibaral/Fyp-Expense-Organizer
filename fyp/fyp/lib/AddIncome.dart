@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fyp/home.dart';
 import 'package:intl/intl.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
+
+//import 'login_page.dart';
 
 void main() {
   runApp(AddIncome());
@@ -19,35 +22,27 @@ class _AddIncomeState extends State<AddIncome> {
   final _formKey = GlobalKey<FormState>();
   bool visible = false;
   TextEditingController dateinput = TextEditingController();
-  TextEditingController timeinput = TextEditingController();
-  TextEditingController amount = TextEditingController();
-  TextEditingController category = TextEditingController();
-  TextEditingController description = TextEditingController();
 
-  Future addincome() async {
+  final amountController = TextEditingController();
+  final categoryController = TextEditingController();
+  final descriptionController = TextEditingController();
+
+  Future addIncome() async {
     setState(() {
       visible = true;
     });
 
-    String Amount = amount.text;
-    String Category = category.text;
-    String Date = dateinput.text;
-    String Time = timeinput.text;
-    String Description = description.text;
+    String amount = amountController.text;
+    String category = categoryController.text;
+    String description = descriptionController.text;
 
-    var data = {
-      'Amount': amount,
-      'Category': category,
-      'Date': dateinput,
-      'Time': timeinput,
-      'Description': description
-    };
-
+    var data = {'amount' : amount, 'category' : category, 'description': description};
     print(data);
+
     var response = await http.post(
-        Uri.parse("http://192.168.100.129/myfolder/add income/addIncome.php"),
-        body: json.encode(data),
-        headers: {"Content-Type": "application/json"});
+     Uri.parse("http://10.80.99.15/myfolder/addIncome/addIncome.php"),
+     body: json.encode(data),
+     headers:{"Content-Type": "application/json"});
     var message = jsonDecode(response.body);
     print(message);
 
@@ -56,10 +51,6 @@ class _AddIncomeState extends State<AddIncome> {
         visible = false;
       });
     }
-    //Navigator.push(
-    //   context, MaterialPageRoute(builder: (context) => HomePage()));
-
-    // Showing Alert Dialog with Response JSON Message.
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -77,6 +68,8 @@ class _AddIncomeState extends State<AddIncome> {
       },
     );
   }
+
+  
 
 
   //void initState() {
@@ -108,7 +101,9 @@ class _AddIncomeState extends State<AddIncome> {
           ),
         ],
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+          },
           icon: Icon(Icons.arrow_back),
           color: Colors.white,
         ),
@@ -155,12 +150,15 @@ class _AddIncomeState extends State<AddIncome> {
                     SizedBox(height: 10),
                     Container(
                       child: TextFormField(
-                        controller: amount,
+                        controller: amountController,
                         validator: Validators.compose([
                           Validators.required('Amount is required'),
-                          Validators.min(1, 'Value less than 1 not allowed'),
-                        ]),
-                        keyboardType: TextInputType.text,
+                          Validators.patternRegExp(
+                  RegExp(
+                      r'^[0-9]*$'),
+                  'Accept only numbers'),
+            ]),
+                        keyboardType: TextInputType.number,
                         style: TextStyle(color: Colors.black87),
                         decoration: InputDecoration(
                             border: new OutlineInputBorder(
@@ -213,11 +211,12 @@ class _AddIncomeState extends State<AddIncome> {
                     SizedBox(height: 10),
                     Container(
                       child: TextFormField(
-                        controller: category,
+                        controller: categoryController,
                         validator: Validators.compose([
                           Validators.required('Category is required'),
-                          Validators.min(1, 'Value less than 1 not allowed'),
-                        ]),
+                         Validators.minLength(1, 'Category cannot be less than 1 characters'),
+              
+            ]),
                         keyboardType: TextInputType.text,
                         style: TextStyle(color: Colors.black87),
                         decoration: InputDecoration(
@@ -366,89 +365,89 @@ class _AddIncomeState extends State<AddIncome> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Text(
-                      'Time',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontFamily: 'Rubik',
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      child: TextFormField(
-                        validator: Validators.compose([
-                          Validators.required('Time is required'),
-                        ]),
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(color: Colors.black87),
-                        decoration: InputDecoration(
-                            border: new OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: new BorderSide(
-                                  color: Colors.black26, width: 0.0),
-                            ),
-                            errorBorder: new OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: new BorderSide(
-                                  color: Colors.black26, width: 0.0),
-                            ),
-                            focusedErrorBorder: new OutlineInputBorder(
-                              borderSide: new BorderSide(
-                                  color: Colors.black26, width: 0.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: new BorderSide(
-                                color: Colors.black26,
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            focusColor: Colors.black26,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Colors.black26),
-                            ),
-                            contentPadding: EdgeInsets.only(top: 14),
-                            prefixIcon:
-                                Icon(Icons.timelapse, color: Color(0xff5ac18e)),
-                            // hintText: "Enter Time",
-                            hintStyle: TextStyle(
-                                color: Colors.black38,
-                                fontFamily: 'Roboto Condensed',
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400)),
-                        controller:
-                            timeinput, //editing controller of this TextField
-                        readOnly:
-                            true, //set it true, so that user will not able to edit text
-                        onTap: () async {
-                          TimeOfDay? pickedTime = await showTimePicker(
-                            initialTime: TimeOfDay.now(),
-                            context: context,
-                          );
-                          if (pickedTime != null) {
-                            print(pickedTime.format(context)); //output 10:51 PM
-                            DateTime parsedTime = DateFormat.jm()
-                                .parse(pickedTime.format(context).toString());
-                            //converting to DateTime so that we can further format on different pattern.
-                            print(parsedTime); //output 1970-01-01 22:53:00.000
-                            String formattedTime =
-                                DateFormat('HH:mm:ss').format(parsedTime);
-                            print(formattedTime); //output 14:59:00
-                            //DateFormat() is from intl package, you can format the time on any pattern you need.
-                            setState(() {
-                              timeinput.text =
-                                  formattedTime; //set the value of text field.
-                            });
-                          } else {
-                            print("Time is not selected");
-                          }
-                        },
-                      ),
-                    ),
+                //SizedBox(height: 20),
+                //Text(
+                //  'Time',
+                //  style: TextStyle(
+                //      color: Colors.black,
+                //      fontSize: 18,
+                //      fontFamily: 'Rubik',
+                //      fontWeight: FontWeight.w400),
+                //),
+                //SizedBox(height: 10),
+                //Container(
+                //  child: TextFormField(
+                //    validator: Validators.compose([
+                //      Validators.required('Time is required'),
+                //    ]),
+                //    keyboardType: TextInputType.text,
+                //    style: TextStyle(color: Colors.black87),
+                //    decoration: InputDecoration(
+                //        border: new OutlineInputBorder(
+                //          borderRadius: BorderRadius.circular(10),
+                //          borderSide: new BorderSide(
+                //              color: Colors.black26, width: 0.0),
+                //        ),
+                //        errorBorder: new OutlineInputBorder(
+                //          borderRadius: BorderRadius.circular(10),
+                //          borderSide: new BorderSide(
+                //              color: Colors.black26, width: 0.0),
+                //        ),
+                //        focusedErrorBorder: new OutlineInputBorder(
+                //          borderSide: new BorderSide(
+                //              color: Colors.black26, width: 0.0),
+                //        ),
+                //        enabledBorder: OutlineInputBorder(
+                //          borderRadius: BorderRadius.circular(10),
+                //          borderSide: new BorderSide(
+                //            color: Colors.black26,
+                //          ),
+                //        ),
+                //        filled: true,
+                //        fillColor: Colors.white,
+                //        focusColor: Colors.black26,
+                //        focusedBorder: OutlineInputBorder(
+                //          borderRadius: BorderRadius.circular(10),
+                //          borderSide: BorderSide(color: Colors.black26),
+                //        ),
+                //        contentPadding: EdgeInsets.only(top: 14),
+                //        prefixIcon:
+                //            Icon(Icons.timelapse, color: Color(0xff5ac18e)),
+                //        // hintText: "Enter Time",
+                //        hintStyle: TextStyle(
+                //            color: Colors.black38,
+                //            fontFamily: 'Roboto Condensed',
+                //            fontSize: 15,
+                //            fontWeight: FontWeight.w400)),
+                //    controller:
+                //        timeinput, //editing controller of this TextField
+                //    readOnly:
+                //        true, //set it true, so that user will not able to edit text
+                //    onTap: () async {
+                //      TimeOfDay? pickedTime = await showTimePicker(
+                //        initialTime: TimeOfDay.now(),
+                //        context: context,
+                //      );
+                //      if (pickedTime != null) {
+                //        print(pickedTime.format(context)); //output 10:51 PM
+                //        DateTime parsedTime = DateFormat.jm()
+                //            .parse(pickedTime.format(context).toString());
+                //        //converting to DateTime so that we can further format on different pattern.
+                //        print(parsedTime); //output 1970-01-01 22:53:00.000
+                //        String formattedTime =
+                //            DateFormat('HH:mm:ss').format(parsedTime);
+                //        print(formattedTime); //output 14:59:00
+                //        //DateFormat() is from intl package, you can format the time on any pattern you need.
+                //        setState(() {
+                //          timeinput.text =
+                //              formattedTime; //set the value of text field.
+                //        });
+                //      } else {
+                //        print("Time is not selected");
+                //      }
+                //    },
+                //  ),
+                //),
                     SizedBox(
                       height: 15,
                     ),
@@ -467,7 +466,7 @@ class _AddIncomeState extends State<AddIncome> {
                             height: 100,
                             child: Center(
                               child: TextFormField(
-                                controller: description,
+                                controller: descriptionController,
                                 validator: Validators.compose([
                                   Validators.required(
                                       'Description is required'),
@@ -524,7 +523,7 @@ class _AddIncomeState extends State<AddIncome> {
                                 onPressed: () {
                                   setState(() {
                                     if (_formKey.currentState!.validate()) {
-                                      addincome();
+                                      addIncome();
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(

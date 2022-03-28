@@ -205,7 +205,7 @@ class _CreateAccountState extends State<CreateAccount> {
             validator: Validators.compose([
               Validators.required('Password is required'),
               Validators.patternString(
-                  r'^(?=.*[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+                  r'^(?=.*[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8}$',
                   'Password must have 8 characters\nMinimum 1 Upper_case\nMinimum 1 Lower_case\nMinimum 1 Numeric_Number\nMinimum 1 Special Character'),
             ]),
             obscureText: _isHiddenPassword,

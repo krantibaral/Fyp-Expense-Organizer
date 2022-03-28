@@ -41,13 +41,13 @@ class _LoginState extends State<LoginPage> {
     var data = {'name': name, 'password': password};
 
     var response = await http.post(
-        Uri.parse("http://192.168.100.129/myfolder/login/login_user.php"),
+        Uri.parse("http://10.80.99.15/myfolder/login/login_user.php"),
         body: json.encode(data));
     var message = jsonDecode(response.body);
 
     if (message == 'Login Matched') {
       setState(() {
-        visible = false;
+        visible = true;
       });
 
       Navigator.push(
