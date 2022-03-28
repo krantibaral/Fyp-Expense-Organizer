@@ -40,7 +40,7 @@ class _AddIncomeState extends State<AddIncome> {
     print(data);
 
     var response = await http.post(
-     Uri.parse("http://10.80.99.15/myfolder/addIncome/addIncome.php"),
+     Uri.parse("http://192.168.100.129/myfolder/addIncome/addIncome.php"),
      body: json.encode(data),
      headers:{"Content-Type": "application/json"});
     var message = jsonDecode(response.body);

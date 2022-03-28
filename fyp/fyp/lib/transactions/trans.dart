@@ -53,6 +53,12 @@ class _allTransactionState extends State<allTransaction> {
                   Color(0xff5ac18e),
                 ])),
           ),
+          actions: [
+            IconButton(
+              onPressed: (){}, 
+            icon: Icon(Icons.filter_alt),
+            color: Colors.white,
+            )],
         ),
         body: FutureBuilder<List>(
           future: transactionsController.getData(),
@@ -60,9 +66,16 @@ class _allTransactionState extends State<allTransaction> {
           builder: (context, snapshot) {
           
           if(snapshot.hasData){
-            return Container(
-              child: Text(snapshot.data.toString()),
-            );
+           return ListView.builder(
+             itemCount: snapshot.data!.length,
+             itemBuilder: (context, index){
+               return Card(
+                 child: ListTile(title: Text("Title"))
+               );
+             },
+             );
+              //child: Text(snapshot.data.toString()),
+            
           
 
           }else if(snapshot.hasError){
