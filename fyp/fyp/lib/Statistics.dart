@@ -231,7 +231,8 @@ class _allReportState extends State<allReport> {
      _IncomeData("Rent", 8808),
      _IncomeData("Freelancing", 14400),
      _IncomeData("Dancing", 1030),
-     _IncomeData("Singing", 7000),
+     _IncomeData("Cooking", 90),
+     
 
    ];
    return chartData;

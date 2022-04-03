@@ -40,7 +40,7 @@ class _addExpenseState extends State<addExpense> {
     print(data);
 
     var response = await http.post(
-     Uri.parse("http://192.168.100.129/myfolder/addExpense/addExpense.php"),
+     Uri.parse("http://10.20.22.168/myfolder/addExpense/addExpense.php"),
      body: json.encode(data),
      headers:{"Content-Type": "application/json"});
     var message = jsonDecode(response.body);

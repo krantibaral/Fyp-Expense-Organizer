@@ -294,8 +294,8 @@ class _HomeState extends State<HomePage> {
                                   builder: (context) => const AddIncome()));
                         },
                         child: Container(
-                          height: 60,
-                          width: 380,
+                          height: 50,
+                          width: 370,
                           decoration: BoxDecoration(
                               color: Colors.lime[100],
                               borderRadius: BorderRadius.circular(15),
@@ -334,8 +334,8 @@ class _HomeState extends State<HomePage> {
                                   builder: (context) => const addExpense()));
                         },
                         child: Container(
-                          height: 60,
-                          width: 380,
+                          height: 50,
+                          width: 370,
                           decoration: BoxDecoration(
                               color: Colors.red[100],
                               borderRadius: BorderRadius.circular(15),
@@ -379,8 +379,8 @@ class _HomeState extends State<HomePage> {
                                 builder: (context) => allTransaction()));
                       },
                       child: Container(
-                        height: 60,
-                        width: 380,
+                        height: 50,
+                        width: 370,
                         decoration: BoxDecoration(
                             color: Colors.blue[100],
                             borderRadius: BorderRadius.circular(15),
@@ -419,8 +419,8 @@ class _HomeState extends State<HomePage> {
                                 builder: ((context) => allReport())));
                       },
                       child: Container(
-                        height: 60,
-                        width: 380,
+                        height: 50,
+                        width: 370,
                         decoration: BoxDecoration(
                             color: Colors.orange[100],
                             borderRadius: BorderRadius.circular(15),
