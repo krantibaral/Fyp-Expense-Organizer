@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fyp/home.dart';
+import 'package:fyp/transactions/controller_income.dart';
 import 'package:intl/intl.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
@@ -40,7 +41,7 @@ class _addExpenseState extends State<addExpense> {
     print(data);
 
     var response = await http.post(
-     Uri.parse("http://10.20.22.168/myfolder/addExpense/addExpense.php"),
+     Uri.parse("http://192.168.100.129/myfolder/addExpense/addExpense.php"),
      body: json.encode(data),
      headers:{"Content-Type": "application/json"});
     var message = jsonDecode(response.body);
@@ -79,9 +80,11 @@ class _addExpenseState extends State<addExpense> {
         elevation: 5,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+             
+            },
             iconSize: 20,
-            icon: Icon(Icons.done_outline_outlined),
+            icon: Icon(Icons.delete),
             color: Colors.white,
           ),
         ],

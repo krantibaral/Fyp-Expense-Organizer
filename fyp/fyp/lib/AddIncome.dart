@@ -1,10 +1,14 @@
 import 'dart:convert';
+//import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fyp/home.dart';
+import 'package:fyp/transactions/controller_income.dart';
 import 'package:intl/intl.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
+
+
 
 //import 'login_page.dart';
 
@@ -13,19 +17,55 @@ void main() {
 }
 
 class AddIncome extends StatefulWidget {
-  const AddIncome({Key? key}) : super(key: key);
+  final bool? edit;
+  final String? id;
+  final String? Amount;
+  final String? Category;
+  final String? Date;
+  final String? Description;
+  const AddIncome(
+      {Key? key,
+      this.edit,
+      this.id,
+      this.Date,
+      this.Amount,
+      this.Category,
+      this.Description})
+      : super(key: key);
   @override
   _AddIncomeState createState() => _AddIncomeState();
 }
 
 class _AddIncomeState extends State<AddIncome> {
+  bool edited = false;
+  late String amount;
+  late String category;
+  late String description;
+  late String date;
+  String oldAmount = "";
+  String oldCategory = "";
+  String oldDate = "";
+  String oldDescription = "";
+
   final _formKey = GlobalKey<FormState>();
   bool visible = false;
+
   TextEditingController dateinput = TextEditingController();
 
   final amountController = TextEditingController();
   final categoryController = TextEditingController();
   final descriptionController = TextEditingController();
+
+  
+
+  @override
+  void dispose() {
+    amountController.dispose();
+    categoryController.dispose();
+    descriptionController.dispose();
+    dateinput.dispose();
+    super.dispose();
+  }
 
   Future addIncome() async {
     setState(() {
@@ -35,14 +75,20 @@ class _AddIncomeState extends State<AddIncome> {
     String amount = amountController.text;
     String category = categoryController.text;
     String description = descriptionController.text;
+    String date = dateinput.text;
 
-    var data = {'amount' : amount, 'category' : category, 'description': description};
+    var data = {
+      'amount': amount,
+      'category': category,
+      'description': description,
+      'date': date,
+    };
     print(data);
 
     var response = await http.post(
-     Uri.parse("http://192.168.100.129/myfolder/addIncome/addIncome.php"),
-     body: json.encode(data),
-     headers:{"Content-Type": "application/json"});
+        Uri.parse("http://192.168.100.129/myfolder/addIncome/addIncome.php"),
+        body: json.encode(data),
+        headers: {"Content-Type": "application/json"});
     var message = jsonDecode(response.body);
     print(message);
 
@@ -69,24 +115,30 @@ class _AddIncomeState extends State<AddIncome> {
     );
   }
 
-  
-
-
-  //void initState() {
-  //  dateinput.text = ""; //set the initial value of text field
-  //  super.initState();
-  //}
-  //var _categories = [
-  //  "Salary",
-  //  "Gifts",
-  //  "Interest",
-  //  "Rent Seeking",
-  //  "Bussiness",
-  //  "Freelancing"
-  //];
-  //var _currentItemSelected = "Salary";
   @override
   Widget build(BuildContext context) {
+    if(widget.edit !=null){
+          if (widget.edit!) {
+      amountController.text = widget.Amount ?? "";
+      categoryController.text = widget.Category ?? "";
+      dateinput.text = widget.Date ?? "";
+      descriptionController.text = widget.Description ?? "";
+
+      amount = widget.Amount ?? "";
+      oldAmount = widget.Amount ?? "";
+
+      category = widget.Category ?? "";
+      oldCategory = widget.Category ?? "";
+
+      date = widget.Date ?? "";
+      oldDate = widget.Date ?? "";
+
+      description = widget.Description ?? "";
+      oldDescription = widget.Description ?? "";
+    }
+
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -94,15 +146,20 @@ class _AddIncomeState extends State<AddIncome> {
         elevation: 5,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              print("123");
+              
+              TransactionsController().deletetransactions(data['id']);
+            },
             iconSize: 20,
-            icon: Icon(Icons.done_outline_outlined),
+            icon: Icon(Icons.delete),
             color: Colors.white,
           ),
         ],
         leading: IconButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
           },
           icon: Icon(Icons.arrow_back),
           color: Colors.white,
@@ -154,10 +211,8 @@ class _AddIncomeState extends State<AddIncome> {
                         validator: Validators.compose([
                           Validators.required('Amount is required'),
                           Validators.patternRegExp(
-                  RegExp(
-                      r'^[0-9]*$'),
-                  'Accept only numbers'),
-            ]),
+                              RegExp(r'^[0-9]*$'), 'Accept only numbers'),
+                        ]),
                         keyboardType: TextInputType.number,
                         style: TextStyle(color: Colors.black87),
                         decoration: InputDecoration(
@@ -214,9 +269,9 @@ class _AddIncomeState extends State<AddIncome> {
                         controller: categoryController,
                         validator: Validators.compose([
                           Validators.required('Category is required'),
-                         Validators.minLength(1, 'Category cannot be less than 1 characters'),
-              
-            ]),
+                          Validators.minLength(
+                              1, 'Category cannot be less than 1 characters'),
+                        ]),
                         keyboardType: TextInputType.text,
                         style: TextStyle(color: Colors.black87),
                         decoration: InputDecoration(
@@ -365,89 +420,89 @@ class _AddIncomeState extends State<AddIncome> {
                         },
                       ),
                     ),
-                //SizedBox(height: 20),
-                //Text(
-                //  'Time',
-                //  style: TextStyle(
-                //      color: Colors.black,
-                //      fontSize: 18,
-                //      fontFamily: 'Rubik',
-                //      fontWeight: FontWeight.w400),
-                //),
-                //SizedBox(height: 10),
-                //Container(
-                //  child: TextFormField(
-                //    validator: Validators.compose([
-                //      Validators.required('Time is required'),
-                //    ]),
-                //    keyboardType: TextInputType.text,
-                //    style: TextStyle(color: Colors.black87),
-                //    decoration: InputDecoration(
-                //        border: new OutlineInputBorder(
-                //          borderRadius: BorderRadius.circular(10),
-                //          borderSide: new BorderSide(
-                //              color: Colors.black26, width: 0.0),
-                //        ),
-                //        errorBorder: new OutlineInputBorder(
-                //          borderRadius: BorderRadius.circular(10),
-                //          borderSide: new BorderSide(
-                //              color: Colors.black26, width: 0.0),
-                //        ),
-                //        focusedErrorBorder: new OutlineInputBorder(
-                //          borderSide: new BorderSide(
-                //              color: Colors.black26, width: 0.0),
-                //        ),
-                //        enabledBorder: OutlineInputBorder(
-                //          borderRadius: BorderRadius.circular(10),
-                //          borderSide: new BorderSide(
-                //            color: Colors.black26,
-                //          ),
-                //        ),
-                //        filled: true,
-                //        fillColor: Colors.white,
-                //        focusColor: Colors.black26,
-                //        focusedBorder: OutlineInputBorder(
-                //          borderRadius: BorderRadius.circular(10),
-                //          borderSide: BorderSide(color: Colors.black26),
-                //        ),
-                //        contentPadding: EdgeInsets.only(top: 14),
-                //        prefixIcon:
-                //            Icon(Icons.timelapse, color: Color(0xff5ac18e)),
-                //        // hintText: "Enter Time",
-                //        hintStyle: TextStyle(
-                //            color: Colors.black38,
-                //            fontFamily: 'Roboto Condensed',
-                //            fontSize: 15,
-                //            fontWeight: FontWeight.w400)),
-                //    controller:
-                //        timeinput, //editing controller of this TextField
-                //    readOnly:
-                //        true, //set it true, so that user will not able to edit text
-                //    onTap: () async {
-                //      TimeOfDay? pickedTime = await showTimePicker(
-                //        initialTime: TimeOfDay.now(),
-                //        context: context,
-                //      );
-                //      if (pickedTime != null) {
-                //        print(pickedTime.format(context)); //output 10:51 PM
-                //        DateTime parsedTime = DateFormat.jm()
-                //            .parse(pickedTime.format(context).toString());
-                //        //converting to DateTime so that we can further format on different pattern.
-                //        print(parsedTime); //output 1970-01-01 22:53:00.000
-                //        String formattedTime =
-                //            DateFormat('HH:mm:ss').format(parsedTime);
-                //        print(formattedTime); //output 14:59:00
-                //        //DateFormat() is from intl package, you can format the time on any pattern you need.
-                //        setState(() {
-                //          timeinput.text =
-                //              formattedTime; //set the value of text field.
-                //        });
-                //      } else {
-                //        print("Time is not selected");
-                //      }
-                //    },
-                //  ),
-                //),
+                    //SizedBox(height: 20),
+                    //Text(
+                    //  'Time',
+                    //  style: TextStyle(
+                    //      color: Colors.black,
+                    //      fontSize: 18,
+                    //      fontFamily: 'Rubik',
+                    //      fontWeight: FontWeight.w400),
+                    //),
+                    //SizedBox(height: 10),
+                    //Container(
+                    //  child: TextFormField(
+                    //    validator: Validators.compose([
+                    //      Validators.required('Time is required'),
+                    //    ]),
+                    //    keyboardType: TextInputType.text,
+                    //    style: TextStyle(color: Colors.black87),
+                    //    decoration: InputDecoration(
+                    //        border: new OutlineInputBorder(
+                    //          borderRadius: BorderRadius.circular(10),
+                    //          borderSide: new BorderSide(
+                    //              color: Colors.black26, width: 0.0),
+                    //        ),
+                    //        errorBorder: new OutlineInputBorder(
+                    //          borderRadius: BorderRadius.circular(10),
+                    //          borderSide: new BorderSide(
+                    //              color: Colors.black26, width: 0.0),
+                    //        ),
+                    //        focusedErrorBorder: new OutlineInputBorder(
+                    //          borderSide: new BorderSide(
+                    //              color: Colors.black26, width: 0.0),
+                    //        ),
+                    //        enabledBorder: OutlineInputBorder(
+                    //          borderRadius: BorderRadius.circular(10),
+                    //          borderSide: new BorderSide(
+                    //            color: Colors.black26,
+                    //          ),
+                    //        ),
+                    //        filled: true,
+                    //        fillColor: Colors.white,
+                    //        focusColor: Colors.black26,
+                    //        focusedBorder: OutlineInputBorder(
+                    //          borderRadius: BorderRadius.circular(10),
+                    //          borderSide: BorderSide(color: Colors.black26),
+                    //        ),
+                    //        contentPadding: EdgeInsets.only(top: 14),
+                    //        prefixIcon:
+                    //            Icon(Icons.timelapse, color: Color(0xff5ac18e)),
+                    //        // hintText: "Enter Time",
+                    //        hintStyle: TextStyle(
+                    //            color: Colors.black38,
+                    //            fontFamily: 'Roboto Condensed',
+                    //            fontSize: 15,
+                    //            fontWeight: FontWeight.w400)),
+                    //    controller:
+                    //        timeinput, //editing controller of this TextField
+                    //    readOnly:
+                    //        true, //set it true, so that user will not able to edit text
+                    //    onTap: () async {
+                    //      TimeOfDay? pickedTime = await showTimePicker(
+                    //        initialTime: TimeOfDay.now(),
+                    //        context: context,
+                    //      );
+                    //      if (pickedTime != null) {
+                    //        print(pickedTime.format(context)); //output 10:51 PM
+                    //        DateTime parsedTime = DateFormat.jm()
+                    //            .parse(pickedTime.format(context).toString());
+                    //        //converting to DateTime so that we can further format on different pattern.
+                    //        print(parsedTime); //output 1970-01-01 22:53:00.000
+                    //        String formattedTime =
+                    //            DateFormat('HH:mm:ss').format(parsedTime);
+                    //        print(formattedTime); //output 14:59:00
+                    //        //DateFormat() is from intl package, you can format the time on any pattern you need.
+                    //        setState(() {
+                    //          timeinput.text =
+                    //              formattedTime; //set the value of text field.
+                    //        });
+                    //      } else {
+                    //        print("Time is not selected");
+                    //      }
+                    //    },
+                    //  ),
+                    //),
                     SizedBox(
                       height: 15,
                     ),
@@ -531,6 +586,21 @@ class _AddIncomeState extends State<AddIncome> {
                                       );
                                     }
                                   });
+                                  TransactionsController controller = TransactionsController();
+                                  if(amount != null && amount.isNotEmpty){
+                                  //  TransactionsController controller = TransactionsController();
+                                    
+                                    if(widget.edit!){
+                                      if(amount.compareTo(oldAmount)!=0){
+                                        controller.updateIncome(widget.id!, amount, category, date, description);
+                                        
+                                      }
+                                    }else{
+                                      //controller.addincome(amount!);
+                                      Navigator.of(context).pop();
+                                    }
+
+                                  }
                                 },
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size(10, 50),

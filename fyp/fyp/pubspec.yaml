@@ -23,7 +23,9 @@ environment:
 dependencies:
   http: ^0.13.1
   dio: ^4.0.4
-  
+  fluttertoast: ^8.0.9
+  get: ^4.6.1
+  crypto: ^3.0.1
   pie_chart: ^5.1.0
   syncfusion_flutter_charts: ^19.4.56
   
