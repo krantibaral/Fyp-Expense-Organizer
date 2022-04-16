@@ -25,7 +25,32 @@ Future <List> getData() async{
 
 updateIncome(String id, String amount, String category, String date, String description) async {
   try{
-    await dio.put("http://192.168.100.129/myfolder/transactions/update_transactions.php",
+    await dio.put("http://192.168.100.129/myfolder/transactions/update_transactions_income.php",
+    data: jsonEncode(
+      {
+        "id" : id,
+        "amount" :amount,
+        "category": category,
+        "date": date,
+        "description": description,
+      },
+    ),
+      options: Options(
+        headers: {
+          "Content-Type": "application/json",
+        },
+      ),
+    );
+    
+    
+  }on DioError catch(e){
+    print(e);
+    return Future.error("Error Updating your data");
+  }
+}
+updateExpense(String id, String amount, String category, String date, String description) async {
+  try{
+    await dio.put("http://192.168.100.129/myfolder/transactions/update_transactions_expense.php",
     data: jsonEncode(
       {
         "id" : id,

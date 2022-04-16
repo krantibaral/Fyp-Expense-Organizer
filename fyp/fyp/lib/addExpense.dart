@@ -13,13 +13,37 @@ void main() {
 }
 
 class addExpense extends StatefulWidget {
-  const addExpense({Key? key}) : super(key: key);
+  final bool? edit;
+  final String? id;
+  final String? Amount;
+  final String? Category;
+  final String? Date;
+  final String? Description;
+  const addExpense(
+      {Key? key,
+      this.edit,
+      this.id,
+      this.Date,
+      this.Amount,
+      this.Category,
+      this.Description})
+      : super(key: key);
+
 
   @override
   _addExpenseState createState() => _addExpenseState();
 }
 
 class _addExpenseState extends State<addExpense> {
+  bool edited = false;
+  late String amount;
+  late String category;
+  late String description;
+  late String date;
+  String oldAmount = "";
+  String oldCategory = "";
+  String oldDate = "";
+  String oldDescription = "";
   final _formKey = GlobalKey<FormState>();
   bool visible = false;
   
@@ -27,17 +51,35 @@ class _addExpenseState extends State<addExpense> {
   final amountController = TextEditingController();
   final categoryController = TextEditingController();
   final descriptionController = TextEditingController();
+  @override
+  void dispose() {
+    amountController.dispose();
+    categoryController.dispose();
+    descriptionController.dispose();
+    dateinput.dispose();
+    super.dispose();
+  }
+
+  
+
 
   Future addExpense() async {
     setState(() {
       visible = true;
     });
 
+
     String amount = amountController.text;
     String category = categoryController.text;
     String description = descriptionController.text;
+    String date = dateinput.text;
 
-    var data = {'amount' : amount, 'category' : category, 'description': description};
+ var data = {
+      'amount': amount,
+      'category': category,
+      'description': description,
+      'date': date,
+    };
     print(data);
 
     var response = await http.post(
@@ -71,8 +113,29 @@ class _addExpenseState extends State<addExpense> {
   }
   
   
+  
   @override
   Widget build(BuildContext context) {
+     if(widget.edit !=null){
+          if (widget.edit!) {
+      amountController.text = widget.Amount ?? "";
+      categoryController.text = widget.Category ?? "";
+      dateinput.text = widget.Date ?? "";
+      descriptionController.text = widget.Description ?? "";
+
+      amount = widget.Amount ?? "";
+      oldAmount = widget.Amount ?? "";
+
+      category = widget.Category ?? "";
+      oldCategory = widget.Category ?? "";
+
+      date = widget.Date ?? "";
+      oldDate = widget.Date ?? "";
+
+      description = widget.Description ?? "";
+      oldDescription = widget.Description ?? "";
+    }
+     }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -519,6 +582,22 @@ class _addExpenseState extends State<addExpense> {
                                       );
                                     }
                                   });
+                                  TransactionsController controller = TransactionsController();
+                                  if((amount != null && amount.isNotEmpty) || (category != null && category.isNotEmpty) || (date != null && date.isNotEmpty) || (description != null && description.isNotEmpty)){
+                                  //  TransactionsController controller = TransactionsController();
+                                    
+                                    if(widget.edit!){
+                                      if(amount.compareTo(oldAmount)!=0){
+                                        controller.updateIncome(widget.id!, amount, category, date, description);
+                                        Navigator.of(context).pop();
+                                        
+                                      }
+                                    }else{
+                                      //controller.addincome(amount!);
+                                      Navigator.of(context).pop();
+                                    }
+
+                                  }
                                 },
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size(10, 50),

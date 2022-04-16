@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+
 
 import 'home.dart';
 
@@ -24,6 +24,7 @@ class _allReportState extends State<allReport> {
     // TODO: implement initState
    // super.initState();
   //}
+  
   
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ class _allReportState extends State<allReport> {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.calendar_today),
+            icon: Icon(Icons.filter_alt),
           )
         ],
       ),
@@ -134,7 +135,7 @@ class _allReportState extends State<allReport> {
               child: Container(
                 height:340,
                 child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
+                  scrollDirection: Axis.horizontal,
                   child: DataTable(
                     columns: const <DataColumn>[
                       DataColumn(
@@ -155,6 +156,12 @@ class _allReportState extends State<allReport> {
                           //   style: TextStyle(fontStyle: FontStyle.italic),
                         ),
                       ),
+                      DataColumn(
+                        label: Text(
+                          'Description',
+                          //   style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
                      
                     ],
                     rows: const <DataRow>[
@@ -162,6 +169,7 @@ class _allReportState extends State<allReport> {
                         cells: <DataCell>[
                           DataCell(Text('2022-11-01')),
                           DataCell(Text('12200')),
+                          DataCell(Text('Gift')),
                           DataCell(Text('Gift')),
                          
                         ],
@@ -171,6 +179,7 @@ class _allReportState extends State<allReport> {
                           DataCell(Text('2022-12-02')),
                           DataCell(Text('12888')),
                           DataCell(Text('Food')),
+                          DataCell(Text('Foods,bddkjfbewjfeiwhfiewfpjfo')),
                          
                         ],
                       ),
@@ -179,6 +188,7 @@ class _allReportState extends State<allReport> {
                           DataCell(Text('2022-11-01')),
                           DataCell(Text('128888')),
                           DataCell(Text('Salary')),
+                           DataCell(Text('Salary ksbkjs')),
                        
                         ],
                       ),
@@ -187,6 +197,7 @@ class _allReportState extends State<allReport> {
                           DataCell(Text('2022-11-01')),
                           DataCell(Text('128888')),
                           DataCell(Text('Rent')),
+                           DataCell(Text('Rent shabjkebfedf')),
                        
                         ],
                       ),
@@ -195,6 +206,7 @@ class _allReportState extends State<allReport> {
                           DataCell(Text('2022-11-01')),
                           DataCell(Text('128888')),
                           DataCell(Text('Business')),
+                           DataCell(Text('Business is love')),
                        
                         ],
                       ),
@@ -203,6 +215,16 @@ class _allReportState extends State<allReport> {
                           DataCell(Text('2022-11-01')),
                           DataCell(Text('128888')),
                           DataCell(Text('Book')),
+                          DataCell(Text('Book is hobby')),
+                       
+                        ],
+                      ),
+                      DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text('2022-11-01')),
+                          DataCell(Text('128888')),
+                          DataCell(Text('Book')),
+                          DataCell(Text('Book is hobby')),
                        
                         ],
                       ),

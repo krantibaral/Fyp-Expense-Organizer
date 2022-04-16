@@ -6,9 +6,8 @@ import 'package:fyp/home.dart';
 import 'package:fyp/transactions/controller_income.dart';
 import 'package:intl/intl.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
+
 import 'package:http/http.dart' as http;
-
-
 
 //import 'login_page.dart';
 
@@ -55,8 +54,6 @@ class _AddIncomeState extends State<AddIncome> {
   final amountController = TextEditingController();
   final categoryController = TextEditingController();
   final descriptionController = TextEditingController();
-
-  
 
   @override
   void dispose() {
@@ -117,26 +114,25 @@ class _AddIncomeState extends State<AddIncome> {
 
   @override
   Widget build(BuildContext context) {
-    if(widget.edit !=null){
-          if (widget.edit!) {
-      amountController.text = widget.Amount ?? "";
-      categoryController.text = widget.Category ?? "";
-      dateinput.text = widget.Date ?? "";
-      descriptionController.text = widget.Description ?? "";
+    if (widget.edit != null) {
+      if (widget.edit!) {
+        amountController.text = widget.Amount ?? "";
+        categoryController.text = widget.Category ?? "";
+        dateinput.text = widget.Date ?? "";
+        descriptionController.text = widget.Description ?? "";
 
-      amount = widget.Amount ?? "";
-      oldAmount = widget.Amount ?? "";
+        amount = widget.Amount ?? "";
+        oldAmount = widget.Amount ?? "";
 
-      category = widget.Category ?? "";
-      oldCategory = widget.Category ?? "";
+        category = widget.Category ?? "";
+        oldCategory = widget.Category ?? "";
 
-      date = widget.Date ?? "";
-      oldDate = widget.Date ?? "";
+        date = widget.Date ?? "";
+        oldDate = widget.Date ?? "";
 
-      description = widget.Description ?? "";
-      oldDescription = widget.Description ?? "";
-    }
-
+        description = widget.Description ?? "";
+        oldDescription = widget.Description ?? "";
+      }
     }
 
     return Scaffold(
@@ -146,10 +142,9 @@ class _AddIncomeState extends State<AddIncome> {
         elevation: 5,
         actions: [
           IconButton(
-            onPressed: () {
-              print("123");
-              
-              TransactionsController().deletetransactions(data['id']);
+            onPressed: () async {
+              // await TransactionsController().deletetransactions(data['id']);
+              setState(() {});
             },
             iconSize: 20,
             icon: Icon(Icons.delete),
@@ -586,20 +581,30 @@ class _AddIncomeState extends State<AddIncome> {
                                       );
                                     }
                                   });
-                                  TransactionsController controller = TransactionsController();
-                                  if(amount != null && amount.isNotEmpty){
-                                  //  TransactionsController controller = TransactionsController();
-                                    
-                                    if(widget.edit!){
-                                      if(amount.compareTo(oldAmount)!=0){
-                                        controller.updateIncome(widget.id!, amount, category, date, description);
-                                        
+                                  TransactionsController controller =
+                                      TransactionsController();
+                                  if ((amount != null && amount.isNotEmpty) ||
+                                      (category != null &&
+                                          category.isNotEmpty) ||
+                                      (date != null && date.isNotEmpty) ||
+                                      (description != null &&
+                                          description.isNotEmpty)) {
+                                    //  TransactionsController controller = TransactionsController();
+
+                                    if (widget.edit!) {
+                                      if (amount.compareTo(oldAmount) != 0) {
+                                        controller.updateIncome(
+                                            widget.id!,
+                                            amount,
+                                            category,
+                                            date,
+                                            description);
+                                        Navigator.of(context).pop();
                                       }
-                                    }else{
+                                    } else {
                                       //controller.addincome(amount!);
                                       Navigator.of(context).pop();
                                     }
-
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(

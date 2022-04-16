@@ -68,25 +68,13 @@ class _allTransactionState extends State<allTransaction> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   Map data = snapshot.data![index];
-                   print(data['Type']);
+                  print(data['Type']);
                   return Card(
                     margin: EdgeInsets.all(8.0),
                     elevation: 5.0,
                     child: ListTile(
-                      onTap: (){
-                        //if (data['Type']=='Expense'){
-                        //  print(addExpense());
-                        //}
-                        //showDialog(
-//
-                        //  context: context,
-                        //  builder: (context) => AlertDialog(
-                        //    scrollable: true,
-                        //    content: AddIncome(),
-                        //    
-                        
-                        
-
+                      onTap: () {
+                      
                       },
                       contentPadding: EdgeInsets.symmetric(
                         vertical: 15.0,
@@ -94,9 +82,10 @@ class _allTransactionState extends State<allTransaction> {
                       ),
                       title: Text(
                         "Rs.${data['Amount']}",
-                       
                         style: TextStyle(
-                            color: data['Type']=="Expense"? Colors.red:Colors.green,
+                            color: data['Type'] == "Expense"
+                                ? Colors.red
+                                : Colors.green,
                             fontFamily: 'Eczar',
                             fontSize: 20),
                         maxLines: 1,
@@ -111,40 +100,48 @@ class _allTransactionState extends State<allTransaction> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      trailing: IconButton(onPressed: (){
+                      //leading: IconButton(
+                      //    icon: Icon(Icons.delete),
+                      //    onPressed: () async {
+                      //      await TransactionsController()
+                      //          .deletetransactions(data['id']);
+                      //      setState(() {});
+                      //    },
+                      //    color: Colors.black),
+                      trailing: IconButton(
+                        onPressed: () {
+                          if (data['Type'] == "Income") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddIncome(
+                                          edit: true,
+                                          id: data['id'],
+                                          Amount: data['Amount'],
+                                          Category: data["Category"],
+                                          Date: data["Date"],
+                                          Description: data["Description"],
+                                        )));
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => addExpense(
+                                        edit: true,
+                                        id: data['id'],
+                                        Amount: data['Amount'],
+                                        Category: data["Category"],
+                                        Date: data["Date"],
+                                        Description: data["Description"],
 
 
-                        if (data['Type']=="Income"){
-                           Navigator.push(context, MaterialPageRoute(builder: (context)=> AddIncome(
-                          edit: true,
-                          id: data['id'],
-                          Amount: data['Amount'],
-                          Category: data["Category"],
-                          Date: data["Date"],
-                          Description: data["Description"],
-
-
-                        )));
-
-                        }else{
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> addExpense(
-                          //edit: true,
-                          //id: data['id'],
-                          //Amount: data['Amount'],
-                          //Category: data["Category"],
-                          //Date: data["Date"],
-                          //Description: data["Description"],
-//
-
-                        )));
-                      
-                        }
-                      }, 
-                      icon: Icon(Icons.edit),
-                      color: Colors.black,
+                                        )));
+                          }
+                        },
+                        icon: Icon(Icons.edit),
+                        color: Colors.black,
                       ),
                     ),
-
                   );
                 },
               );
@@ -161,8 +158,6 @@ class _allTransactionState extends State<allTransaction> {
                 "Feteching your data.....",
                 style: TextStyle(fontSize: 18, fontFamily: "Roboto Condensed"),
               ));
-
-            
             }
           }),
     );

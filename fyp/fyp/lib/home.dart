@@ -53,8 +53,7 @@ class _HomeState extends State<HomePage> {
               if (pickedDate != null) {
                 print(
                     pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                String formattedDate =
-                    DateFormat('yyyy-MM').format(pickedDate);
+                String formattedDate = DateFormat('yyyy-MM').format(pickedDate);
                 print(
                     formattedDate); //formatted date output using intl package =>  2021-03-16
                 //you can implement different kind of Date Format here according to your requirement
@@ -128,6 +127,10 @@ class _HomeState extends State<HomePage> {
               ]),
             ),
             ListTile(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddIncome()));
+              },
               leading: Icon(Icons.money_outlined),
               title: Text('Add Income',
                   style: TextStyle(
@@ -136,6 +139,10 @@ class _HomeState extends State<HomePage> {
                       fontWeight: FontWeight.w400)),
             ),
             ListTile(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => addExpense()));
+              },
               leading: Icon(Icons.money_off),
               title: Text('Add Expense',
                   style: TextStyle(
@@ -144,6 +151,10 @@ class _HomeState extends State<HomePage> {
                       fontWeight: FontWeight.w400)),
             ),
             ListTile(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => allTransaction()));
+              },
               leading: Icon(Icons.swap_horiz),
               title: Text('View Transactions',
                   style: TextStyle(
@@ -152,14 +163,22 @@ class _HomeState extends State<HomePage> {
                       fontWeight: FontWeight.w400)),
             ),
             ListTile(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => allReport()));
+              },
               leading: Icon(Icons.auto_graph),
-              title: Text('View Reports',
+              title: Text('View Statistics',
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: "'Roboto Condensed'",
                       fontWeight: FontWeight.w400)),
             ),
             ListTile(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => allTransaction()));
+              },
               leading: Icon(Icons.edit),
               title: Text('Edit Expense',
                   style: TextStyle(
@@ -168,16 +187,12 @@ class _HomeState extends State<HomePage> {
                       fontWeight: FontWeight.w400)),
             ),
             ListTile(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => allTransaction()));
+              },
               leading: Icon(Icons.edit),
               title: Text('Edit Income',
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: "'Roboto Condensed'",
-                      fontWeight: FontWeight.w400)),
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings',
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: "'Roboto Condensed'",
@@ -288,8 +303,8 @@ class _HomeState extends State<HomePage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                           Navigator.push(
-                               context,
+                          Navigator.push(
+                              context,
                               MaterialPageRoute(
                                   builder: (context) => const AddIncome()));
                         },
@@ -413,10 +428,79 @@ class _HomeState extends State<HomePage> {
                     SizedBox(height: 10),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => allReport())));
+                        //AlertDialog(
+                        //  title: Text("Subscription"),
+                        //  content: Text("If you want to see your Statistics report then do pay through Khalti or Try Free Trail for 1 month"),
+
+                        // );
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: new Text("Add Subscription",
+                                    style: TextStyle(
+                                      fontFamily: "Roboto Condensed",
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                                content: Text(
+                                    "If you want to see your Statistics report then do pay through Khalti or Try Free Trail for 1 month??",
+                                    style: TextStyle(
+                                        fontFamily: "Roboto Condensed",
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500)),
+                                actions: <Widget>[
+                                  Row(
+                                    children: [
+                                      ElevatedButton(
+                                        child: new Text("Free Trail",
+                                            style: TextStyle(
+                                                fontFamily: "Roboto Condensed",
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w500)),
+                                        style: ElevatedButton.styleFrom(
+                                          // minimumSize: Size(200, 50),
+                                          //elevation: 5,
+                                          primary: (Color(0xff5ac18e)),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      allReport()));
+                                        },
+                                      ),
+                                      SizedBox(
+                                        width: 30,
+                                      ),
+                                      ElevatedButton(
+                                        child: new Text("Khalti Payment",
+                                            style: TextStyle(
+                                                fontFamily: "Roboto Condensed",
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w500)),
+                                        style: ElevatedButton.styleFrom(
+                                          //minimumSize: Size(200, 50),
+                                          // elevation: 5,
+                                          primary: (Color(0xff5ac18e)),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            });
                       },
                       child: Container(
                         height: 50,
