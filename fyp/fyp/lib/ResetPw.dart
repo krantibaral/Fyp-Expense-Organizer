@@ -14,7 +14,7 @@ class ResetPw extends StatefulWidget {
 }
 
 class _ResetPwState extends State<ResetPw> {
-  bool _isHiddenPassword = true;
+  final bool _isHiddenPassword = true;
   Widget buildNewPw() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

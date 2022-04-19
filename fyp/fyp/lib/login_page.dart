@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:fyp/controllers/user_controller.dart';
+import 'package:fyp/models/user.dart';
+import 'package:provider/provider.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:fyp/ResetPw0.dart';
 import 'package:fyp/home.dart';
 import 'CreateAccount.dart';
+import 'constants.dart';
 //import 'ResetPw.dart';
 
 void main() {
@@ -20,8 +24,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginPage> {
-  late String _userName;
-
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -41,14 +43,17 @@ class _LoginState extends State<LoginPage> {
     var data = {'name': name, 'password': password};
 
     var response = await http.post(
-        Uri.parse("http://192.168.100.129/myfolder/login/login_user.php"),
+        Uri.parse("$kBackendURL/login/login_user.php"),
         body: json.encode(data));
-    var message = jsonDecode(response.body);
+    Map message = jsonDecode(response.body);
 
-    if (message == 'Login Matched') {
+    if (message['status'] == 'success') {
       setState(() {
         visible = true;
       });
+
+      Provider.of<UserController>(context, listen: false)
+          .setUser(User.fromPayload(message['user']));
 
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomePage()));
@@ -60,10 +65,10 @@ class _LoginState extends State<LoginPage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: new Text(message),
+              title: Text(message['error'] ?? "Error"),
               actions: [
                 ElevatedButton(
-                  child: new Text("OK"),
+                  child: Text("OK"),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -88,23 +93,23 @@ class _LoginState extends State<LoginPage> {
               Validators.maxLength(
                   15, 'Name cannot be greater than 15 characters'),
             ]),
-            onSaved: (name) {
-              _userName = name!;
-            },
+            // onSaved: (name) {
+            //   _userName = name!;
+            // },
             keyboardType: TextInputType.text,
             style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
                 border: InputBorder.none,
-                errorBorder: new OutlineInputBorder(
+                errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
-                focusedErrorBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
                 filled: true,
                 fillColor: Colors.white,
@@ -155,16 +160,16 @@ class _LoginState extends State<LoginPage> {
             style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
                 border: InputBorder.none,
-                errorBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                focusedErrorBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
                 filled: true,
                 fillColor: Colors.white,

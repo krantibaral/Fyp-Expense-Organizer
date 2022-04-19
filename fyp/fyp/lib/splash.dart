@@ -16,14 +16,13 @@ class SplashScreen extends StatefulWidget {
 class StartState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     startTime();
   }
 
   startTime() async {
-    var duration = Duration(seconds: 6);
-    return new Timer(duration, route);
+    var duration = Duration(seconds: 1);
+    return Timer(duration, route);
   }
 
   route() {
@@ -38,7 +37,7 @@ class StartState extends State<SplashScreen> {
 
   Widget initWidget(BuildContext context) {
     return Scaffold(
-      body:   AnnotatedRegion<SystemUiOverlayStyle>(
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: Stack(
           children: [
@@ -64,16 +63,16 @@ class StartState extends State<SplashScreen> {
                       height: 300,
                     ),
                   ),
-                 // SizedBox(height:130),
+                  // SizedBox(height:130),
                   Container(
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       "Expense Organizer",
                       style: TextStyle(
-                      fontFamily: "Cookie",
-                      fontSize: 35,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white),
+                          fontFamily: "Cookie",
+                          fontSize: 35,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white),
                     ),
                   )
                 ],

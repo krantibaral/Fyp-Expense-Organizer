@@ -111,6 +111,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 }
 
+// ignore: must_be_immutable
 class TokenPage extends StatelessWidget {
   TokenPage({Key? key, required this.email}) : super(key: key);
   TextEditingController token = TextEditingController();

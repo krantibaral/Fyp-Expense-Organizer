@@ -1,59 +1,63 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/controllers/user_controller.dart';
-import 'package:fyp/models/transaction.dart';
-import 'package:fyp/models/report_filter.dart';
+import 'package:fyp/edit_transaction.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'models/transaction.dart';
+import 'models/report_filter.dart';
 
-class allReport extends StatefulWidget {
-  const allReport({Key? key}) : super(key: key);
+class allTransaction extends StatefulWidget {
+  const allTransaction({Key? key}) : super(key: key);
+
   @override
-  _allReportState createState() => _allReportState();
+  _allTransactionState createState() => _allTransactionState();
 }
 
-class _allReportState extends State<allReport> {
+class _allTransactionState extends State<allTransaction> {
   ReportFilter filter = ReportFilter();
   @override
   Widget build(BuildContext context) {
     return Consumer<UserController>(builder: (context, userController, child) {
       if (!userController.isLoggedIn) return Text("Login first");
-
-      return FutureBuilder(
-          future: Transaction.getAllFromServer(userController.user!.id),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return StatefulBuilder(builder: (context, setState) {
-                List<Transaction> allTransactions =
-                    (snapshot.data as List<Transaction>)
-                        .where((element) => element.passes(filter))
-                        .toList();
-                return Scaffold(
-                  appBar: AppBar(
-                    centerTitle: true,
-                    elevation: 5,
-                    title: Text('Statistics',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Roboto Condensed',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 24)),
-                    flexibleSpace: Container(
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                        Color(0x995ac18e),
-                        Color(0xcc5ac18e),
-                        Color(0xff5ac18e),
-                      ])),
-                    ),
-                  ),
-                  body: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    child: Column(children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: SingleChildScrollView(
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 5,
+          title: Text('All Transactions',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Roboto Condensed',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 24)),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Color(0x995ac18e),
+              Color(0xcc5ac18e),
+              Color(0xff5ac18e),
+            ])),
+          ),
+        ),
+        body: FutureBuilder<List<Transaction>>(
+            future: userController.isLoggedIn
+                ? Transaction.getAllFromServer(userController.user!.id)
+                : Future(() => []),
+            builder: (context, snapshot) {
+              var allTransactions = snapshot.data is List<Transaction>
+                  ? (snapshot.data as List<Transaction>)
+                      .where((element) => element.passes(filter))
+                      .toList()
+                  : [];
+              if (snapshot.hasData) {
+                return SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 15,
+                      ),
+                      if (allTransactions.isNotEmpty)
+                        SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,151 +198,109 @@ class _allReportState extends State<allReport> {
                               ),
                             ],
                           ),
+                        )
+                      else
+                        Center(
+                          child: Text(
+                              "No Transactions Found Yet. Add some from home page."),
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      SfCartesianChart(
-                          primaryXAxis: CategoryAxis(),
-                          // Chart title
-                          title: ChartTitle(
-                            text: 'Report by Category',
-                            textStyle: TextStyle(
-                                fontSize: 18, fontFamily: "Roboto Condensed"),
-                          ),
-                          // Enable legend
-                          legend: Legend(isVisible: true),
-                          // Enable tooltip
-                          tooltipBehavior: TooltipBehavior(enable: true),
-                          series: <ChartSeries<ChartData, String>>[
-                            LineSeries<ChartData, String>(
-                              dataSource: categorize(allTransactions, "income"),
-                              xValueMapper: (ChartData data, _) =>
-                                  data.categoryName,
-                              yValueMapper: (ChartData data, _) => data.money,
-                              name: 'Income',
-                              color: Colors.green,
-                              dataLabelSettings:
-                                  DataLabelSettings(isVisible: true),
-                            ),
-                            LineSeries<ChartData, String>(
-                              dataSource:
-                                  categorize(allTransactions, "expense"),
-                              xValueMapper: (ChartData data, _) =>
-                                  data.categoryName,
-                              yValueMapper: (ChartData data, _) => data.money,
-                              name: 'Expense',
-                              color: Colors.red,
-                              dataLabelSettings:
-                                  DataLabelSettings(isVisible: true),
-                            ),
-                          ]),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Container(
-                          height: 340,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: DataTable(
-                              columns: const <DataColumn>[
-                                DataColumn(
-                                  label: Text(
-                                    'Date',
-                                    // style: TextStyle(fontStyle: FontStyle.italic),
+                      ...allTransactions
+                          .map((transaction) => Card(
+                                margin: EdgeInsets.all(5.0),
+                                elevation: 5.0,
+                                child: ListTile(
+                                  onTap: () {},
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 15.0,
+                                    horizontal: 15.0,
                                   ),
-                                ),
-                                DataColumn(
-                                  label: Text(
-                                    'Amount',
-                                    //  style: TextStyle(fontStyle: FontStyle.italic),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Text(
-                                    'Category',
-                                    //   style: TextStyle(fontStyle: FontStyle.italic),
-                                  ),
-                                ),
-                                DataColumn(
-                                  label: Text(
-                                    'Description',
-                                    //   style: TextStyle(fontStyle: FontStyle.italic),
-                                  ),
-                                ),
-                              ],
-                              rows: allTransactions
-                                  .map(
-                                    (e) => DataRow(
-                                      cells: <DataCell>[
-                                        DataCell(
-                                          Text(
-                                            DateFormat(
-                                                    DateFormat.YEAR_MONTH_DAY)
-                                                .format(e.date),
+                                  title: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Rs.${transaction.amount}",
+                                        style: TextStyle(
+                                            color: transaction.type == 'expense'
+                                                ? Colors.red
+                                                : Colors.green,
+                                            fontFamily: 'Eczar',
+                                            fontSize: 20),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.black.withOpacity(
+                                              0.4,
+                                            ),
                                           ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
                                         ),
-                                        DataCell(Text(
-                                          e.amount.toString(),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 4),
+                                        child: Text(
+                                          transaction.category.toString(),
                                           style: TextStyle(
-                                            color: e.type == 'income'
-                                                ? Colors.green
-                                                : Colors.red,
-                                          ),
-                                        )),
-                                        DataCell(
-                                          Text(e.category),
-                                        ),
-                                        DataCell(
-                                          Container(
-                                            width: 150,
-                                            child: Text(e.description ?? ""),
+                                            fontSize: 13,
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ]),
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Text(
+                                    "${transaction.description}\n${DateFormat(DateFormat.YEAR_MONTH_DAY).format(transaction.date)}",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Roboto Condensed',
+                                        fontSize: 18),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  trailing: IconButton(
+                                    onPressed: () async {
+                                      await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditTransaction(
+                                                      transaction:
+                                                          transaction)));
+                                      setState(() {});
+                                    },
+                                    icon: Icon(Icons.edit),
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ))
+                          .toList()
+                    ],
                   ),
                 );
-              });
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            }
-            return CupertinoActivityIndicator();
-          });
+                // return ListView.builder(
+                //   itemCount: snapshot.data!.length,
+                //   itemBuilder: (context, index) {
+                //     Transaction transaction = snapshot.data![index];
+
+                //   },
+                // );
+
+              } else if (snapshot.hasError) {
+                //print("Hello");
+                return Center(
+                  child: Text("${snapshot.error}"),
+                );
+              } else {
+                return Center(
+                    child: Text(
+                  "Feteching your data.....",
+                  style:
+                      TextStyle(fontSize: 18, fontFamily: "Roboto Condensed"),
+                ));
+              }
+            }),
+      );
     });
   }
-
-  List<ChartData> categorize(List<Transaction> transactions, String by) {
-    List<ChartData> toReturn = [];
-    transactions
-        .where((element) => element.type == by)
-        .toList()
-        .forEach((transaction) {
-      int addToIndex = -1;
-      for (var i = 0; i < toReturn.length; i++) {
-        if (toReturn[i].categoryName.toLowerCase() ==
-            transaction.category.toLowerCase()) {
-          addToIndex = i;
-          break;
-        }
-      }
-      if (addToIndex != -1) {
-        toReturn[addToIndex].money += transaction.amount;
-      } else {
-        toReturn.add(ChartData(transaction.category, transaction.amount));
-      }
-    });
-    return toReturn;
-  }
-}
-
-class ChartData {
-  String categoryName;
-  double money;
-  ChartData(this.categoryName, this.money);
 }

@@ -14,7 +14,6 @@ class ResetPw0 extends StatefulWidget {
 }
 
 class _ResetPw0State extends State<ResetPw0> {
-  late String _userName;
   final _formKey = GlobalKey<FormState>();
 
   Widget buildUserName() {
@@ -38,23 +37,20 @@ class _ResetPw0State extends State<ResetPw0> {
               }
               return null;
             },
-            onSaved: (name) {
-              _userName = name!;
-            },
             keyboardType: TextInputType.text,
             style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
                 border: InputBorder.none,
-                errorBorder: new OutlineInputBorder(
+                errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
-                focusedErrorBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
                 filled: true,
                 fillColor: Colors.white,

@@ -1,8 +1,8 @@
 import 'dart:convert';
+import 'package:fyp/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fyp/home.dart';
 import 'package:fyp/login_page.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
@@ -20,7 +20,6 @@ class CreateAccount extends StatefulWidget {
 class _CreateAccountState extends State<CreateAccount> {
   bool _isHiddenPassword = true;
   bool visible = false;
-  late String _userName;
 
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -37,13 +36,13 @@ class _CreateAccountState extends State<CreateAccount> {
     String password = passwordController.text;
 
     //var url =
-    //  'http://192.168.0.108/myfolder/Registration/user_registration.php';
+    //  '$kBackendURL/Registration/user_registration.php';
     var data = {'name': name, 'email': email, 'password': password};
 
     print(data);
 
     var response = await http.post(
-        Uri.parse("http://192.168.100.129/myfolder/Registration/user_registration.php"),
+        Uri.parse("$kBackendURL/Registration/user_registration.php"),
         body: json.encode(data),
         headers: {"Content-Type": "application/json"});
     var message = jsonDecode(response.body);
@@ -55,17 +54,17 @@ class _CreateAccountState extends State<CreateAccount> {
       });
     }
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => HomePage()));
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
 
     // Showing Alert Dialog with Response JSON Message.
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text(message),
+          title: Text(message),
           actions: <Widget>[
             ElevatedButton(
-              child: new Text("OK"),
+              child: Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
@@ -96,23 +95,20 @@ class _CreateAccountState extends State<CreateAccount> {
                 Validators.maxLength(
                     15, 'Name cannot be greater than 15 characters'),
               ]),
-              onSaved: (name) {
-                _userName = name!;
-              },
               keyboardType: TextInputType.text,
               style: TextStyle(color: Colors.black87),
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  errorBorder: new OutlineInputBorder(
+                  errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                    borderSide: BorderSide(color: Colors.white, width: 0.0),
                   ),
-                  focusedErrorBorder: new OutlineInputBorder(
-                    borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white, width: 0.0),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                    borderSide: BorderSide(color: Colors.white, width: 0.0),
                   ),
                   filled: true,
                   fillColor: Colors.white,
@@ -157,16 +153,16 @@ class _CreateAccountState extends State<CreateAccount> {
             style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
                 border: InputBorder.none,
-                errorBorder: new OutlineInputBorder(
+                errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
-                focusedErrorBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
                 filled: true,
                 fillColor: Colors.white,
@@ -213,16 +209,16 @@ class _CreateAccountState extends State<CreateAccount> {
             style: TextStyle(color: Colors.black87),
             decoration: InputDecoration(
                 border: InputBorder.none,
-                errorBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                focusedErrorBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: new BorderSide(color: Colors.white, width: 0.0),
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
                 ),
                 filled: true,
                 fillColor: Colors.white,
@@ -322,6 +318,7 @@ class _CreateAccountState extends State<CreateAccount> {
         ));
   }
 
+  @override
   Widget build(BuildContext Context) {
     return Scaffold(
       backgroundColor: Colors.white,

@@ -1,17 +1,10 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 import 'package:dio/dio.dart';
 
-import 'package:http/http.dart' as http;
-
+import '../constants.dart';
 
 class RemoteServices {
-  // static String initialUrl =
-  //     "https://serenity-fyp.000webhostapp.com"; //cmd->ipconfig->IPv4
-  static String initialUrl = "http://192.168.100.129";
-
- 
+  static String initialUrl = kBackendURL;
 
   static Future<String> changePassword(
       String email, String currentPassword, String newPassword) async {
@@ -67,6 +60,4 @@ class RemoteServices {
     log(response.data);
     return response.data;
   }
-
-  
 }
