@@ -72,7 +72,7 @@ class _EditTransactionState extends State<EditTransaction> {
                       return AlertDialog(
                         title: Text("Delete Transaction ?"),
                         content: Text(
-                            "This transaction will be delted. You cant undo this."),
+                            "This transaction will be deleted. You cant undo this."),
                         actions: [
                           TextButton(
                               onPressed: () {

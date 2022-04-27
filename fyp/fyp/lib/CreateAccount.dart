@@ -6,9 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:fyp/login_page.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
-void main() {
-  runApp(CreateAccount());
-}
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({Key? key}) : super(key: key);
@@ -54,7 +51,7 @@ class _CreateAccountState extends State<CreateAccount> {
       });
     }
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
+        context, MaterialPageRoute(builder: (context) => const LoginPage()));
 
     // Showing Alert Dialog with Response JSON Message.
     showDialog(
@@ -201,7 +198,7 @@ class _CreateAccountState extends State<CreateAccount> {
             validator: Validators.compose([
               Validators.required('Password is required'),
               Validators.patternString(
-                  r'^(?=.*[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8}$',
+                  r'^(?=.*[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
                   'Password must have 8 characters\nMinimum 1 Upper_case\nMinimum 1 Lower_case\nMinimum 1 Numeric_Number\nMinimum 1 Special Character'),
             ]),
             obscureText: _isHiddenPassword,

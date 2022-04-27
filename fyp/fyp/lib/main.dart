@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => UserController()),
       ],
       child: KhaltiScope(
-        publicKey: "test_public_key_809fcbee00b24403b2fc46f6c529949d",
+        publicKey: "test_public_key_d25cfbfc24334b57840f8a2623895f54",
         builder: (context, navigatorKey) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,

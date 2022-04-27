@@ -501,7 +501,7 @@ class _HomeState extends State<HomePage> {
                                               fontWeight: FontWeight.w600,
                                             )),
                                         content: Text(
-                                            "If you want to see your Statistics report then do pay through Khalti or Try Free Trail for 1 month??",
+                                            "If you want to see your Statistics report then do pay through Khalti or Try Free trial for 1 month??",
                                             style: TextStyle(
                                                 fontFamily: "Roboto Condensed",
                                                 fontSize: 18,
@@ -510,7 +510,7 @@ class _HomeState extends State<HomePage> {
                                           Row(
                                             children: [
                                               ElevatedButton(
-                                                child: Text("Free Trail",
+                                                child: Text("Free Trial",
                                                     style: TextStyle(
                                                         fontFamily:
                                                             "Roboto Condensed",
@@ -566,7 +566,7 @@ class _HomeState extends State<HomePage> {
                                                                       999999)
                                                                   .toString(),
                                                           productName:
-                                                              "Expense Tracker Subscription"),
+                                                              "Expense Organizer Subscription"),
                                                       onSuccess: (model) {
                                                         print(model.toString());
                                                         ScaffoldMessenger.of(
