@@ -9,6 +9,7 @@ import 'package:fyp/controllers/user_controller.dart';
 import 'package:fyp/login_page.dart';
 import 'package:fyp/models/transaction.dart';
 import 'package:fyp/trans.dart';
+import 'package:fyp/widgets/Calculator.dart';
 import 'package:intl/intl.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -213,6 +214,23 @@ class _HomeState extends State<HomePage> {
                               fontSize: 15,
                               fontFamily: "'Roboto Condensed'",
                               fontWeight: FontWeight.w400)),
+                    ),
+                     ListTile(
+                      onTap: () {
+                        userController.setUser(null);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => Calculator()),
+                            (route) => false);
+                      },
+                      leading: Icon(Icons.calculate),
+                      title: Text(
+                        'Calculator',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: "'Roboto Condensed'",
+                            fontWeight: FontWeight.w400),
+                      ),
                     ),
                     ListTile(
                       onTap: () {

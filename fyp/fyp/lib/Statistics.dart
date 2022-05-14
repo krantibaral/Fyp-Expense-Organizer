@@ -243,25 +243,25 @@ class _allReportState extends State<allReport> {
                                 DataColumn(
                                   label: Text(
                                     'Date',
-                                    // style: TextStyle(fontStyle: FontStyle.italic),
+                                     style: TextStyle(fontFamily: "Roboto Condensed"),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Amount',
-                                    //  style: TextStyle(fontStyle: FontStyle.italic),
+                                    style: TextStyle(fontFamily: "Roboto Condensed"),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Category',
-                                    //   style: TextStyle(fontStyle: FontStyle.italic),
+                                    style: TextStyle(fontFamily: "Roboto Condensed"),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Description',
-                                    //   style: TextStyle(fontStyle: FontStyle.italic),
+                                    style: TextStyle(fontFamily: "Roboto Condensed"),
                                   ),
                                 ),
                               ],
