@@ -215,13 +215,11 @@ class _HomeState extends State<HomePage> {
                               fontFamily: "'Roboto Condensed'",
                               fontWeight: FontWeight.w400)),
                     ),
-                     ListTile(
+                    ListTile(
                       onTap: () {
-                        userController.setUser(null);
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => Calculator()),
-                            (route) => false);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Calculator()),
+                        );
                       },
                       leading: Icon(Icons.calculate),
                       title: Text(
@@ -504,125 +502,193 @@ class _HomeState extends State<HomePage> {
                             SizedBox(height: 10),
                             InkWell(
                               onTap: () {
-                                //AlertDialog(
-                                //  title: Text("Subscription"),
-                                //  content: Text("If you want to see your Statistics report then do pay through Khalti or Try Free Trail for 1 month"),
-
-                                // );
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text("Add Subscription",
-                                            style: TextStyle(
-                                              fontFamily: "Roboto Condensed",
-                                              fontWeight: FontWeight.w600,
-                                            )),
-                                        content: Text(
-                                            "If you want to see your Statistics report then do pay through Khalti or Try Free trial for 1 month??",
-                                            style: TextStyle(
+                                if (!userController.user!.subscribed) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("Add Subscription",
+                                              style: TextStyle(
                                                 fontFamily: "Roboto Condensed",
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500)),
-                                        actions: <Widget>[
-                                          Row(
-                                            children: [
-                                              ElevatedButton(
-                                                child: Text("Free Trial",
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            "Roboto Condensed",
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.w500)),
-                                                style: ElevatedButton.styleFrom(
-                                                  // minimumSize: Size(200, 50),
-                                                  //elevation: 5,
-                                                  primary: (Color(0xff5ac18e)),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
+                                                fontWeight: FontWeight.w600,
+                                              )),
+                                          content: Text(
+                                              "If you want to see your Statistics report then do pay through Khalti or Try Free trial for 1 month??",
+                                              style: TextStyle(
+                                                  fontFamily:
+                                                      "Roboto Condensed",
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500)),
+                                          actions: <Widget>[
+                                            Row(
+                                              children: [
+                                                ElevatedButton(
+                                                  child: Text("Free Trial",
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              "Roboto Condensed",
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.w500)),
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    // minimumSize: Size(200, 50),
+                                                    //elevation: 5,
+                                                    primary:
+                                                        (Color(0xff5ac18e)),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
                                                   ),
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                allReport()));
+                                                  },
                                                 ),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              allReport()));
-                                                },
-                                              ),
-                                              SizedBox(
-                                                width: 30,
-                                              ),
-                                              ElevatedButton(
-                                                child: Text("Khalti Payment",
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            "Roboto Condensed",
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.w500)),
-                                                style: ElevatedButton.styleFrom(
-                                                  //minimumSize: Size(200, 50),
-                                                  // elevation: 5,
-                                                  primary: (Color(0xff5ac18e)),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
+                                                SizedBox(
+                                                  width: 30,
+                                                ),
+                                                ElevatedButton(
+                                                  child: Text("Khalti Payment",
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              "Roboto Condensed",
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.w500)),
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    //minimumSize: Size(200, 50),
+                                                    // elevation: 5,
+                                                    primary:
+                                                        (Color(0xff5ac18e)),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
                                                   ),
+                                                  onPressed: () async {
+                                                    KhaltiScope.of(context).pay(
+                                                        config: PaymentConfig(
+                                                            amount: 20000,
+                                                            productIdentity:
+                                                                Random()
+                                                                    .nextInt(
+                                                                        999999)
+                                                                    .toString(),
+                                                            productName:
+                                                                "Expense Organizer Subscription"),
+                                                        onSuccess:
+                                                            (model) async {
+                                                          print(
+                                                              model.toString());
+
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                  "Khalti Payment Succeeded"),
+                                                            ),
+                                                          );
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                  "Please wait..."),
+                                                            ),
+                                                          );
+
+                                                          try {
+                                                            var resp = await http.post(
+                                                                Uri.parse(
+                                                                    kBackendURL +
+                                                                        "/subscribe_to_khalti.php"),
+                                                                headers: {
+                                                                  "Content-Type":
+                                                                      "application/json"
+                                                                },
+                                                                body:
+                                                                    jsonEncode({
+                                                                  "userid":
+                                                                      userController
+                                                                          .user!
+                                                                          .id,
+                                                                }));
+                                                            var jresp =
+                                                                jsonDecode(
+                                                                    resp.body);
+                                                            if (jresp[
+                                                                    'status'] !=
+                                                                'success') {
+                                                              throw Exception(
+                                                                  "Could not save in database.");
+                                                            }
+                                                            userController.user!
+                                                                    .subscribed =
+                                                                true;
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                    "Subscription Added successfully"),
+                                                              ),
+                                                            );
+                                                          } catch (e) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                    "Error: " +
+                                                                        e.toString()),
+                                                              ),
+                                                            );
+                                                          }
+
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          Navigator.of(context).push(
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          allReport()));
+                                                        },
+                                                        onFailure: (model) {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                  "Khalti Payment Failed"),
+                                                            ),
+                                                          );
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          print(
+                                                              model.toString());
+                                                        });
+                                                  },
                                                 ),
-                                                onPressed: () async {
-                                                  KhaltiScope.of(context).pay(
-                                                      config: PaymentConfig(
-                                                          amount: 20000,
-                                                          productIdentity:
-                                                              Random()
-                                                                  .nextInt(
-                                                                      999999)
-                                                                  .toString(),
-                                                          productName:
-                                                              "Expense Organizer Subscription"),
-                                                      onSuccess: (model) {
-                                                        print(model.toString());
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          SnackBar(
-                                                            content: Text(
-                                                                "Khalti Payment Succeeded"),
-                                                          ),
-                                                        );
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        Navigator.of(context).push(
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        allReport()));
-                                                      },
-                                                      onFailure: (model) {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          SnackBar(
-                                                            content: Text(
-                                                                "Khalti Payment Failed"),
-                                                          ),
-                                                        );
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        print(model.toString());
-                                                      });
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      );
-                                    });
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                } else {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => allReport()));
+                                }
                               },
                               child: Container(
                                 height: 50,

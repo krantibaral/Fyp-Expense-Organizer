@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fyp/home.dart';
 
 import 'calculator_button.dart';
-
-
-void main() {
-  runApp(const Calculator());
-}
 
 class Calculator extends StatefulWidget {
   const Calculator({Key? key}) : super(key: key);
@@ -80,47 +74,44 @@ class _SIForm extends State<Calculator> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Calculator", style: TextStyle(fontFamily: "Roboto Condensed", fontSize: 24),
+            "Calculator",
+            style: TextStyle(fontFamily: "Roboto Condensed", fontSize: 24),
           ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  // begin: Alignment.topCenter,
-                  // end: Alignment.bottomCenter,
-                  colors: [
-               // Color(0x665ac18e),
-                Color(0x995ac18e),
-                Color(0xcc5ac18e),
-                Color(0xff5ac18e),
-              ])),
-        ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    // begin: Alignment.topCenter,
+                    // end: Alignment.bottomCenter,
+                    colors: [
+                  // Color(0x665ac18e),
+                  Color(0x995ac18e),
+                  Color(0xcc5ac18e),
+                  Color(0xff5ac18e),
+                ])),
+          ),
           leading: IconButton(
-            onPressed: (){
-              Navigator.pop(context);
-            //Navigator.of(context).pushAndRemoveUntil(
-            //                MaterialPageRoute(
-            //                    builder: (context) => HomePage()),
-            //                (route) => false);
-            },
-          icon: Icon(Icons.arrow_back)),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.arrow_back)),
         ),
         body: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                Color(0x665ac18e),
-                Color(0x995ac18e),
-                Color(0xcc5ac18e),
-                Color(0xff5ac18e),
-              ])),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                  Color(0x665ac18e),
+                  Color(0x995ac18e),
+                  Color(0xcc5ac18e),
+                  Color(0xff5ac18e),
+                ])),
             child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
               Container(
                 child: Padding(
                   padding: EdgeInsets.all(12),
                   child: Text(
-                    "$history",
+                    history,
                     style: TextStyle(fontSize: 28, color: Colors.black),
                   ),
                 ),
@@ -130,7 +121,7 @@ class _SIForm extends State<Calculator> {
                 child: Padding(
                   padding: EdgeInsets.all(12),
                   child: Text(
-                    "$textToDisplay",
+                    textToDisplay,
                     style: TextStyle(fontSize: 48, color: Colors.black),
                   ),
                 ),
@@ -183,7 +174,7 @@ class _SIForm extends State<Calculator> {
                 ),
                 CalculatorButton(
                   text: "7",
-                  fillColor:0xffA9A9A9,
+                  fillColor: 0xffA9A9A9,
                   textColor: 0xff000000,
                   textSize: 20,
                   callback: btnOnClick,
@@ -250,7 +241,7 @@ class _SIForm extends State<Calculator> {
                 ),
                 CalculatorButton(
                   text: "+",
-                  fillColor:0xfff4d160,
+                  fillColor: 0xfff4d160,
                   textColor: 0xff000000,
                   textSize: 20,
                   callback: btnOnClick,
@@ -273,7 +264,7 @@ class _SIForm extends State<Calculator> {
                 ),
                 CalculatorButton(
                   text: "000",
-                  fillColor:0xffA9A9A9,
+                  fillColor: 0xffA9A9A9,
                   textColor: 0xff000000,
                   textSize: 20,
                   callback: btnOnClick,
