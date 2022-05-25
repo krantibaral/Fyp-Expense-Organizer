@@ -294,7 +294,8 @@ class _AddTransactionState extends State<AddTransaction> {
                                       FontWeight.w400)), //icon of text field
                           // hintText: "Enter Date" //label text of field
                           readOnly:
-                              true, //set it true, so that user will not able to edit text
+                              true,
+                           //set it true, so that user will not able to edit text
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
                                 context: context,

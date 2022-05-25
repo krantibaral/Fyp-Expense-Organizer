@@ -6,7 +6,6 @@ import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:fyp/ResetPw0.dart';
 import 'package:fyp/home.dart';
 import 'CreateAccount.dart';
 import 'constants.dart';
@@ -201,53 +200,53 @@ class _LoginState extends State<LoginPage> {
     );
   }
 
-  Widget buildForgotPassword() {
-    return Container(
-        alignment: Alignment.centerRight,
-        child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => ResetPw0()));
-            },
-            child: Text(
-              "Forgot Password?",
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Roboto Condensed',
-                fontWeight: FontWeight.w400,
-                fontSize: 15,
-              ),
-            )));
-  }
+  //Widget buildForgotPassword() {
+  //  return Container(
+  //      alignment: Alignment.centerRight,
+  //      child: TextButton(
+  //          onPressed: () {
+  //            Navigator.push(
+  //                context, MaterialPageRoute(builder: (context) => ResetPw0()));
+  //          },
+  //          child: Text(
+  //            "Forgot Password?",
+  //            style: TextStyle(
+  //              color: Colors.white,
+  //              fontFamily: 'Roboto Condensed',
+  //              fontWeight: FontWeight.w400,
+  //              fontSize: 15,
+  //            ),
+  //          )));
+  //}
 
-  Widget buildRememberMe() {
-    return Container(
-      height: 20,
-      child: Row(
-        children: <Widget>[
-          Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
-            child: Checkbox(
-              value: isRememberMe,
-              checkColor: Colors.green,
-              activeColor: Colors.white,
-              onChanged: (value) {
-                setState(() {
-                  isRememberMe = value!;
-                });
-              },
-            ),
-          ),
-          Text("Remember me",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.normal,
-                fontSize: 15,
-              ))
-        ],
-      ),
-    );
-  }
+  //Widget buildRememberMe() {
+  //  return Container(
+  //    height: 20,
+  //    child: Row(
+  //      children: <Widget>[
+  //        Theme(
+  //          data: ThemeData(unselectedWidgetColor: Colors.white),
+  //          child: Checkbox(
+  //            value: isRememberMe,
+  //            checkColor: Colors.green,
+  //            activeColor: Colors.white,
+  //            onChanged: (value) {
+  //              setState(() {
+  //                isRememberMe = value!;
+  //              });
+  //            },
+  //          ),
+  //        ),
+  //        Text("Remember me",
+  //            style: TextStyle(
+  //              color: Colors.white,
+  //              fontWeight: FontWeight.normal,
+  //              fontSize: 15,
+  //            ))
+  //      ],
+  //    ),
+  //  );
+  //}
 
   Widget buildLoginBtn() {
     return Container(
@@ -365,9 +364,9 @@ class _LoginState extends State<LoginPage> {
                           SizedBox(height: 10),
                           buildPassword(),
                           // SizedBox(height: 20),
-                          buildForgotPassword(),
-                          // SizedBox(height: 20),
-                          buildRememberMe(),
+                          // buildForgotPassword(),
+                          SizedBox(height: 20),
+                          //buildRememberMe(),
                           //SizedBox(height: 20),
                           buildLoginBtn(),
                           //SizedBox(height: 20),

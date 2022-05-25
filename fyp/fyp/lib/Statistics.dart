@@ -203,7 +203,7 @@ class _allReportState extends State<allReport> {
                           title: ChartTitle(
                             text: 'Report by Category',
                             textStyle: TextStyle(
-                                fontSize: 18, fontFamily: "Roboto Condensed"),
+                                fontSize: 16, fontFamily: "Roboto Condensed"),
                           ),
                           // Enable legend
                           legend: Legend(isVisible: true),
@@ -243,25 +243,25 @@ class _allReportState extends State<allReport> {
                                 DataColumn(
                                   label: Text(
                                     'Date',
-                                     style: TextStyle(fontFamily: "Roboto Condensed"),
+                                     style: TextStyle(fontFamily: "Roboto Condensed, fontSize: 16"),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Amount',
-                                    style: TextStyle(fontFamily: "Roboto Condensed"),
+                                    style: TextStyle(fontFamily: "Roboto Condensed, fontSize: 16"),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Category',
-                                    style: TextStyle(fontFamily: "Roboto Condensed"),
+                                    style: TextStyle(fontFamily: "Roboto Condensed, fontSize: 16"),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
                                     'Description',
-                                    style: TextStyle(fontFamily: "Roboto Condensed"),
+                                    style: TextStyle(fontFamily: "Roboto Condensed, fontSize: 16"),
                                   ),
                                 ),
                               ],
@@ -274,6 +274,7 @@ class _allReportState extends State<allReport> {
                                             DateFormat(
                                                     DateFormat.YEAR_MONTH_DAY)
                                                 .format(e.date),
+                                                style: TextStyle(fontFamily: "Roboto Condensed", fontSize: 16),
                                           ),
                                         ),
                                         DataCell(Text(
@@ -282,15 +283,16 @@ class _allReportState extends State<allReport> {
                                             color: e.type == 'income'
                                                 ? Colors.green
                                                 : Colors.red,
+                                                fontFamily: "Eczar"
                                           ),
                                         )),
                                         DataCell(
-                                          Text(e.category),
+                                          Text(e.category, style: TextStyle(fontFamily: "Roboto Condensed", fontSize: 16),),
                                         ),
                                         DataCell(
                                           Container(
                                             width: 150,
-                                            child: Text(e.description ?? ""),
+                                            child: Text(e.description ?? "", style: TextStyle(fontFamily: "Roboto Condensed", fontSize: 16),),
                                           ),
                                         ),
                                       ],

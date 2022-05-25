@@ -70,7 +70,7 @@ class _EditTransactionState extends State<EditTransaction> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text("Delete Transaction ?"),
+                        title: Text("Delete Transaction ?", style: TextStyle(fontFamily: "Roboto Condensed")),
                         content: Text(
                             "This transaction will be deleted. You cant undo this."),
                         actions: [
@@ -78,7 +78,7 @@ class _EditTransactionState extends State<EditTransaction> {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text("Cancel")),
+                              child: Text("Cancel", style: TextStyle( fontFamily: "Roboto Condensed", fontSize: 18, color: Colors.green))),
                           TextButton(
                               onPressed: () async {
                                 try {
@@ -114,7 +114,7 @@ class _EditTransactionState extends State<EditTransaction> {
                                               Text("Error: " + e.toString())));
                                 }
                               },
-                              child: Text("Yes, Delete")),
+                              child: Text("Yes, Delete",style: TextStyle( fontFamily: "Roboto Condensed", fontSize: 18, color: Colors.green))),
                         ],
                       );
                     });

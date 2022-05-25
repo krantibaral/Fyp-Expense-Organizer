@@ -94,12 +94,12 @@ class _allTransactionState extends State<allTransaction> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text("From "),
+                                      Text("From ", style: TextStyle(fontFamily: "Roboto Condensed")),
                                       Text(filter.from != null
                                           ? DateFormat(
                                                   DateFormat.YEAR_MONTH_DAY)
                                               .format(filter.from!)
-                                          : "Any Time"),
+                                          : "Any Time", style: TextStyle(fontFamily: "Roboto Condensed")),
                                     ],
                                   ),
                                   Row(
