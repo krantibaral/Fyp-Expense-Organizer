@@ -65,7 +65,7 @@ class _HomeState extends State<HomePage> {
               } else {
                 result['income'] = result['income']! + element.amount;
               }
-              result['total'] = result['total']! + element.amount;
+              result['total'] = result['income']! - result['expense']!;
             }
             return result;
           }),
@@ -578,7 +578,7 @@ class _HomeState extends State<HomePage> {
                                                   onPressed: () async {
                                                     KhaltiScope.of(context).pay(
                                                         config: PaymentConfig(
-                                                            amount: 20000,
+                                                            amount: 200,
                                                             productIdentity:
                                                                 Random()
                                                                     .nextInt(
